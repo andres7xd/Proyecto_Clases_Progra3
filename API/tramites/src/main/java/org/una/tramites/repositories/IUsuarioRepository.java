@@ -5,7 +5,13 @@
  */
 package org.una.tramites.repositories;
 
+import java.util.Date;
 import java.util.List;
+import javax.management.Query;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.tramites.entities.Usuario;
 
@@ -27,14 +33,10 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
     public List<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto); 
 
-     
+    public Usuario findByNombreCompleto(String nombreCompleto);
+    
+    //Falta el query de contraseña.
 
-//        @Query("select u from Usuario u where UPPER(u.nombreCompleto) like CONCAT('%',UPPER(:nombreCompleto),'%')\"")  
-
-//        public Usuario findNombreCompletoWithLikeSQL(@Param("nombreCompleto")String nombreCompleto); 
-
- 
-
-  
-
+   
 } 
+
