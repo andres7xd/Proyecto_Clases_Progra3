@@ -28,7 +28,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
  
 
     public List<Usuario> findByCedulaContaining(String cedula); 
-
+    
  
 
     public List<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto); 
