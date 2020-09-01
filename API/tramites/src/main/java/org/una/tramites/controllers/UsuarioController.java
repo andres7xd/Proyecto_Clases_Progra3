@@ -5,6 +5,8 @@
  */
 package org.una.tramites.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,13 @@ import org.una.tramites.utils.MapperUtils;
  */
 @RestController
 @RequestMapping("/usuarios") 
-
+@Api(tags = {"Usuarios"})
 public class UsuarioController {
-        @Autowired
+    @Autowired
     private IUsuarioService usuarioService;
 
     @GetMapping() 
+    @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -70,6 +73,7 @@ public class UsuarioController {
 
     @PutMapping("/login")
     @ResponseBody 
+    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
     public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
         try {
             Usuario usuario = new Usuario();
@@ -86,7 +90,7 @@ public class UsuarioController {
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
+        
     }
 
     @GetMapping("/cedula/{term}") 
@@ -122,6 +126,7 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
+    @ApiOperation(value = "Creacion de Usuario:", response = UsuarioDTO.class, tags = "Mantenimiento")
     public ResponseEntity<?> create(@RequestBody Usuario usuario) {
         try {
             Usuario usuarioCreated = usuarioService.create(usuario);
@@ -134,6 +139,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}") 
     @ResponseBody
+    @ApiOperation(value = "Actualizacion de Usuario:", response = UsuarioDTO.class, tags = "Mantenimiento")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Usuario usuarioModified) {
         try {
             Optional<Usuario> usuarioUpdated = usuarioService.update(usuarioModified, id);
