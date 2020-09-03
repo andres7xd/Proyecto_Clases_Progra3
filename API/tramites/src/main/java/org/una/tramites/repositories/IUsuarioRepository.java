@@ -7,6 +7,7 @@ package org.una.tramites.repositories;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import javax.management.Query;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,24 +20,20 @@ import org.una.tramites.entities.Usuario;
  *
  * @author rache
  */
-public interface IUsuarioRepository extends JpaRepository<Usuario, Long> { 
+public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
- 
+    public Usuario findByCedulaAndPasswordEncriptado(String cedula, String passwordEncriptado);
 
-    public Usuario findByCedulaAndPasswordEncriptado(String cedula, String passwordEncriptado); 
+    public List<Usuario> findByCedulaContaining(String cedula);
 
- 
-
-    public List<Usuario> findByCedulaContaining(String cedula); 
-    
- 
-
-    public List<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto); 
+    public List<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
 
     public Usuario findByNombreCompleto(String nombreCompleto);
-    
+
+    public Optional<List<Usuario>> findByDepartamentoId(Long id);
+
+    //@Query("SELECT u FROM Usuario u LEFT JOIN u.departamento d WHERE u.esJefe=1 AND d.id=:id")
+    public Usuario findJefeByDepartamento(Long id);
+
     //Falta el query de contraseña.
-
-   
-} 
-
+}

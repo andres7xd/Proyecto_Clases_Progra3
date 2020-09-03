@@ -32,13 +32,15 @@ import org.una.tramites.utils.MapperUtils;
  * @author andre
  */
 @RestController
-@RequestMapping("/usuarios") 
+@RequestMapping("/usuarios")
 @Api(tags = {"Usuarios"})
+   
 public class UsuarioController {
+
     @Autowired
     private IUsuarioService usuarioService;
 
-    @GetMapping() 
+    @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public @ResponseBody
     ResponseEntity<?> findAll() {
@@ -55,7 +57,7 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/{id}") 
+    @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -72,7 +74,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/login")
-    @ResponseBody 
+    @ResponseBody
     @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
     public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
         try {
@@ -90,10 +92,10 @@ public class UsuarioController {
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
     }
 
-    @GetMapping("/cedula/{term}") 
+    @GetMapping("/cedula/{term}")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Usuario>> result = usuarioService.findByCedulaAproximate(term);
@@ -108,7 +110,7 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/nombre/{term}") 
+    @GetMapping("/nombre/{term}")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<Usuario>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
@@ -124,7 +126,7 @@ public class UsuarioController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/") 
+    @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de Usuario:", response = UsuarioDTO.class, tags = "Mantenimiento")
     public ResponseEntity<?> create(@RequestBody Usuario usuario) {
@@ -137,7 +139,7 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/{id}") 
+    @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de Usuario:", response = UsuarioDTO.class, tags = "Mantenimiento")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Usuario usuarioModified) {
@@ -156,16 +158,15 @@ public class UsuarioController {
         }
     }
 
-    @DeleteMapping("/{id}") 
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-            return null;
-//TODO: Implementar este método
+        return null;
+
     }
 
-    @DeleteMapping("/") 
+    @DeleteMapping("/")
     public ResponseEntity<?> deleteAll() {
-            return null;
- 	//TODO: Implementar este método
-    } 
+        return null;
 
+    }
 }

@@ -34,8 +34,7 @@ public class DepartamentoServiceImplementation implements IDepartamentoService{
         return departamentoRepository.findById(id);
     }
     
-    /*@Override
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public Optional<List<Departamento>> findByEstadoContaining(Boolean estado) {
         return Optional.ofNullable(departamentoRepository.findByEstadoContaining(estado));
     }*/

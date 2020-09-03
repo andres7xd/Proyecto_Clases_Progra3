@@ -27,10 +27,13 @@ public interface IUsuarioService {
 
     public Optional<Usuario> update(Usuario usuario, Long id);
 
+    public Optional<List<Usuario>> findByDepartamentoId(Long id);
+
+    public Usuario findJefeByDepartamento(Long id);
+
     public void delete(Long id);
 
     public void deleteAll();
 
-    public Optional<Usuario> login(Usuario usuario); 
+    public Optional<Usuario> login(Usuario usuario);
 }
-

@@ -79,6 +79,19 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     public Optional<Usuario> login(Usuario usuario) {
         return Optional.ofNullable(usuarioRepository.findByCedulaAndPasswordEncriptado(usuario.getCedula(), usuario.getPasswordEncriptado()));
     }
- 
+
+    @Override
+    public Optional<List<Usuario>> findByDepartamentoId(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Usuario findJefeByDepartamento(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public Usuario findByNombreCompleto(String nombreCompleto){
+         throw new UnsupportedOperationException("Not supported yet."); 
+    } 
 }
 
