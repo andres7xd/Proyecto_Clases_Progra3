@@ -5,10 +5,13 @@
  */
 package org.una.tramites.services;
 
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author rache
  */
+@Service
 public class PermisoServiceImplementation {
     
 }

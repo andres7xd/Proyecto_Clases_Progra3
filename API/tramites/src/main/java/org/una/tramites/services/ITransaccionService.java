@@ -34,4 +34,8 @@ public interface ITransaccionService {
 
     public Transaccion create(Transaccion transaccion);
 
+    public Optional<Transaccion> update(Transaccion transaccionModified, Long id);
+
+    public Optional<List<Transaccion>> findAll();
+
 }

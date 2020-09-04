@@ -74,7 +74,7 @@ public class DepartamentoController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
-    @ApiOperation(value = "Creacion de departamento:", response = DepartamentoDTO.class, tags = "Mantenimiento")
+    @ApiOperation(value = "Creacion de departamento:", response = DepartamentoDTO.class, tags = "Departamentos")
     public ResponseEntity<?> create(@RequestBody Departamento departamento) {
         try {
             Departamento departamentoCreated = departamentoService.create(departamento);
@@ -87,7 +87,7 @@ public class DepartamentoController {
 
     @PutMapping("/{id}") 
     @ResponseBody
-    @ApiOperation(value = "Actualizacion de departamento:", response = DepartamentoDTO.class, tags = "Mantenimiento")
+    @ApiOperation(value = "Actualizacion de departamento:", response = DepartamentoDTO.class, tags = "Departamentos")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Departamento departamentoModified) {
         try {
             Optional<Departamento> departamentoUpdated = departamentoService.update(departamentoModified, id);

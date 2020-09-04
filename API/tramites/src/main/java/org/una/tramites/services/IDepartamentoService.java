@@ -13,6 +13,7 @@ import org.una.tramites.entities.Departamento;
  *
  * @author Luis
  */
+
 public interface IDepartamentoService {
      public Optional<List<Departamento>> findAll();
 

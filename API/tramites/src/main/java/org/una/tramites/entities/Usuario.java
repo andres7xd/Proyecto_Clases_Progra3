@@ -43,11 +43,10 @@ import lombok.ToString;
 @ToString
 
 public class Usuario implements Serializable {
-    
-    @ManyToOne 
-    @JoinColumn(name="departamentos_id")
-    private Departamento departamento;
 
+    @ManyToOne
+    @JoinColumn(name = "departamentos_id")
+    private Departamento departamento;
 
     @Id
 
@@ -71,10 +70,6 @@ public class Usuario implements Serializable {
 
     private boolean estado;
 
-    @Column(name = "departamento_id")
-
-    private Long DepartamentoId;
-
     @Column(name = "fecha_registro", updatable = false)
 
     @Temporal(TemporalType.DATE)
@@ -91,7 +86,7 @@ public class Usuario implements Serializable {
 
     private Date fechaModificacion;
 
-    @Column(name = "es_jefe")
+    @Column(name = "es_Jefe")
 
     private boolean esJeFe;
 
@@ -103,7 +98,7 @@ public class Usuario implements Serializable {
 
         estado = true;
 
-       esJeFe = false;
+        esJeFe = false;
 
         fechaRegistro = new Date();
 

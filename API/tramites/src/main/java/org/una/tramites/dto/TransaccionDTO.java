@@ -5,10 +5,17 @@
  */
 package org.una.tramites.dto;
 
+import java.util.Date;
+import org.una.tramites.entities.PermisoOtorgado;
+
 /**
  *
  * @author rache
  */
 public class TransaccionDTO {
-    
+    private Long id; 
+    private String objeto; 
+    private Date fechaRegistro; 
+    private String informacion;
+    private PermisoOtorgado permisootorgado;
 }
