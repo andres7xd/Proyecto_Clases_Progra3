@@ -15,7 +15,7 @@ import org.una.tramites.entities.Departamento;
  */
 
 public interface IDepartamentoService {
-     public Optional<List<Departamento>> findAll();
+    public Optional<List<Departamento>> findAll();
 
     public Optional<Departamento> findById(Long id);
 

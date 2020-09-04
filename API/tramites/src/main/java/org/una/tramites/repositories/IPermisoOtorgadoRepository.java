@@ -5,10 +5,15 @@
  */
 package org.una.tramites.repositories;
 
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.una.tramites.entities.PermisoOtorgado;
+
 /**
  *
  * @author rache
  */
-public interface IPermisoOtorgadoRepository {
+public interface IPermisoOtorgadoRepository extends JpaRepository<PermisoOtorgado, Long>{
     
+    public List<PermisoOtorgado> findByEstadoContaining(Boolean estado); 
 }

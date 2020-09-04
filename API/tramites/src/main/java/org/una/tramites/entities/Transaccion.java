@@ -44,21 +44,21 @@ import lombok.ToString;
 @ToString
 public class Transaccion implements Serializable {
 
-    @ManyToOne
-    @JoinColumn(name = "permisos_otorgados_id")
-    private PermisoOtorgado permisos_otorgados;
+//    @ManyToOne
+//    @JoinColumn(name = "permisos_otorgados_id")
+//    private PermisoOtorgado permisos_otorgados;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Transaccion")
 
+
+ 
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
 
     @Column(name = "Objeto", length = 50)
 
-    @Id
+  
     private String objeto;
 
     @Column(name = "Informacion")

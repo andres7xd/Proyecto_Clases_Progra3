@@ -19,7 +19,7 @@ public interface IPermisoService {
 
     public Optional<List<Permiso>> findByEstado(boolean estado);
 
-    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate);
+//    public Optional<List<Permiso>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
     public Permiso create(Permiso permiso);
 

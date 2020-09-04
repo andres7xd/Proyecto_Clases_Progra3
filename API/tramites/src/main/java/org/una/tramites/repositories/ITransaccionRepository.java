@@ -10,16 +10,16 @@ import org.una.tramites.entities.Transaccion;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 
 /**
  *
  * @author rache
  */
-@EnableJpaRepositories
-public interface ITransaccionRepository extends JpaRepository<Transaccion, Long>{
 
- 
+public interface ITransaccionRepository extends JpaRepository<Transaccion, Long>{
+    
+   
     public Optional<Transaccion> findById(Long id);
 
     public Optional<List<Transaccion>> findAll(Transaccion transaccion);
@@ -29,5 +29,5 @@ public interface ITransaccionRepository extends JpaRepository<Transaccion, Long>
     public void deleteById(Long id);
  
     public void deleteAll();
-
+    
 }
