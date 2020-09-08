@@ -34,44 +34,30 @@ import lombok.ToString;
 @Entity
 
 @Table(name = "transacciones")
-
 @Data
-
 @AllArgsConstructor
-
 @NoArgsConstructor
-
 @ToString
 public class Transaccion implements Serializable {
 
-//    @ManyToOne
-//    @JoinColumn(name = "permisos_otorgados_id")
-//    private PermisoOtorgado permisos_otorgados;
-
-
-
- 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     @Column(name = "Objeto", length = 50)
-
-  
     private String objeto;
 
     @Column(name = "Informacion")
-
     private String informacion;
 
-    @Column(name = "fecha_registro")
-
+    @Column(name = "fecha_registro", updatable = false)
     @Setter(AccessLevel.NONE)
-
     @Temporal(TemporalType.DATE)
-
     private Date fechaRegistro;
+
+    @ManyToOne
+    @JoinColumn(name = "permisos_otorgados_id")
+    private PermisoOtorgado permisos_otorgados;
 
     private static final long serialVersionUID = 1L;
 

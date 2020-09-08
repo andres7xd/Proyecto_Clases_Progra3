@@ -56,7 +56,7 @@ public class PermisoOtorgado implements Serializable{
     @JoinColumn(name = "usuarios_id")
     private Usuario usuarios;
     
-//     @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisos_otorgados") 
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisos_otorgados") 
 //    private List<Transaccion> transaccion= new ArrayList<>();
      
     @Id
