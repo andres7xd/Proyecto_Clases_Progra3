@@ -5,6 +5,7 @@
  */
 package org.una.tramites.services;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,17 +82,17 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     }
 
     @Override
-    public Optional<List<Usuario>> findByDepartamentoId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Usuario findJefeByDepartamento(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return usuarioRepository.findJefeByDepartamento(id);
     }
     
     public Usuario findByNombreCompleto(String nombreCompleto){
-         throw new UnsupportedOperationException("Not supported yet."); 
+         return usuarioRepository.findByNombreCompleto(nombreCompleto);
     } 
+    //REVISAR
+    @Override
+    public Optional<List<Usuario>> findByDepartamentoId(Long id) {
+        return Optional.empty();
+    }
 }
 
