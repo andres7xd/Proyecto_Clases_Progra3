@@ -5,17 +5,14 @@
  */
 package org.una.tramites.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -30,11 +27,11 @@ import lombok.ToString;
 
 /**
  *
- * @author Luis
+ * @author andre
  */
 @Entity
 
-@Table(name = "departamentos")
+@Table(name = "tramite_tipo")
 
 @Data
 
@@ -43,30 +40,29 @@ import lombok.ToString;
 @NoArgsConstructor
 
 @ToString
-
-public class Departamento implements Serializable {
+public class TramiteTipo {
+    private static final long serialVersionUID = 1L;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento") 
-    private List<Usuario> usuarios= new ArrayList<>();
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento") 
-    private List<TramiteTipo> tramitetipo= new ArrayList<>();
-
     @Id
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
 
-    @Column(name = "nombre", length = 50)
+    @Column(name = "descripcion", length = 100)
 
-    private String nombre;
+    private String descripciontramite;
 
-    @Column(name = "fecha_registro")
 
-    @Setter(AccessLevel.NONE)
+    @Column
+
+    private boolean estado;
+
+    @Column(name = "fecha_registro", updatable = false)
 
     @Temporal(TemporalType.DATE)
+
+    @Setter(AccessLevel.NONE)
 
     private Date fechaRegistro;
 
@@ -77,14 +73,18 @@ public class Departamento implements Serializable {
     @Temporal(TemporalType.DATE)
 
     private Date fechaModificacion;
-    
-    private boolean estado;
-    
+
+    @ManyToOne 
+    @JoinColumn(name="departamentos_id")
+    private Departamento departamento;
+
     @PrePersist
 
     public void prePersist() {
 
         estado = true;
+
+
 
         fechaRegistro = new Date();
 
@@ -99,6 +99,4 @@ public class Departamento implements Serializable {
         fechaModificacion = new Date();
 
     }
-
-
 }

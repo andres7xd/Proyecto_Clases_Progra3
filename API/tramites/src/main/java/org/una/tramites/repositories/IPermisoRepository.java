@@ -16,8 +16,8 @@ import org.una.tramites.entities.Permiso;
  */
 
     public interface IPermisoRepository extends JpaRepository<Permiso, Long>{
-        
-    public List<Permiso> findByEstadoContaining(Boolean estado); 
+    
+    public List<Permiso> findByEstadoContaining(Boolean estado);
     
 }
 
