@@ -89,10 +89,11 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     public Usuario findByNombreCompleto(String nombreCompleto){
          return usuarioRepository.findByNombreCompleto(nombreCompleto);
     } 
-    //REVISAR
+
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<Usuario>> findByDepartamentoId(Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(usuarioRepository.findByDepartamentoId(id));
     }
 }
 

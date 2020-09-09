@@ -56,7 +56,7 @@ public class PermisoOtorgadoController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
-    @ApiOperation(value = "Creacion de permisoOtorgado:", response = PermisoOtorgadoDTO.class, tags = "PermisoOtorgados")
+    @ApiOperation(value = "Creacion de permisoOtorgado:", response = PermisoOtorgadoDTO.class, tags = "Permisos_Otorgados")
     public ResponseEntity<?> create(@RequestBody PermisoOtorgado permisoOtorgado) {
         try {
             PermisoOtorgado permisoOtorgadoCreated = permisoOtorgadoService.create(permisoOtorgado);
@@ -69,7 +69,7 @@ public class PermisoOtorgadoController {
 
     @PutMapping("/{id}") 
     @ResponseBody
-    @ApiOperation(value = "Actualizacion de permisoOtorgado:", response = PermisoOtorgadoDTO.class, tags = "PermisoOtorgados")
+    @ApiOperation(value = "Actualizacion de permisoOtorgado:", response = PermisoOtorgadoDTO.class, tags = "Permisos_Otorgados")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody PermisoOtorgado permisoOtorgadoModified) {
         try {
             Optional<PermisoOtorgado> permisoOtorgadoUpdated = permisoOtorgadoService.update(permisoOtorgadoModified, id);

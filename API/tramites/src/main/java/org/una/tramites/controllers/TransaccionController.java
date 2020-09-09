@@ -74,7 +74,7 @@ public class TransaccionController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
-    @ApiOperation(value = "Creacion de departamento:", response = TransaccionDTO.class, tags = "Trancciones")
+    @ApiOperation(value = "Creacion de departamento:", response = TransaccionDTO.class, tags = "Transacciones")
     public ResponseEntity<?> create(@RequestBody Transaccion transaccion) {
         try {
             Transaccion transaccionCreated = transaccionService.create(transaccion);
@@ -87,7 +87,7 @@ public class TransaccionController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    @ApiOperation(value = "Actualizacion de departamento:", response = TransaccionDTO.class, tags = "Trancciones")
+    @ApiOperation(value = "Actualizacion de departamento:", response = TransaccionDTO.class, tags = "Transacciones")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Transaccion transaccionModified) {
         try {
             Optional<Transaccion> transaccionUpdated = transaccionService.update(transaccionModified, id);

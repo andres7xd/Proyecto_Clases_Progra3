@@ -13,8 +13,8 @@ import org.una.tramites.entities.Departamento;
  *
  * @author Luis
  */
-
 public interface IDepartamentoService {
+
     public Optional<List<Departamento>> findAll();
 
     public Optional<Departamento> findById(Long id);
@@ -23,8 +23,10 @@ public interface IDepartamentoService {
 
     public Optional<Departamento> update(Departamento departamento, Long id);
 
+    public Optional<List<Departamento>> findByEstadoContaining(Boolean estado);
+
     public void delete(Long id);
 
     public void deleteAll();
-    
+
 }

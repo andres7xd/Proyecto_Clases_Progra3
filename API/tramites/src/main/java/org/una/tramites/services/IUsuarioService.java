@@ -36,4 +36,5 @@ public interface IUsuarioService {
     public void deleteAll();
 
     public Optional<Usuario> login(Usuario usuario);
+    
 }

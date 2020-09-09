@@ -6,7 +6,6 @@
 package org.una.tramites.services;
 
 import java.util.Date;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +13,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.una.tramites.entities.Departamento;
 import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.repositories.IPermisoOtorgadoRepository;
 
@@ -65,27 +63,32 @@ public class PermisoOtorgadoServiceImplementation implements IPermisoOtorgadoSer
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgado>> findByUsuarioId(Long usuarioId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Optional.ofNullable(permisoOtorgadoRepository.findByUsuarioId(usuarioId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgado>> findByPermisoId(Long permisoId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Optional.ofNullable(permisoOtorgadoRepository.findByPermisoId(permisoId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgado>> findByUsuarioIdAndEstado(Long usuarioId, boolean estado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Optional.ofNullable(permisoOtorgadoRepository.findByUsuarioIdAndEstado(usuarioId, estado));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgado>> findByPermisoIdAndEstado(Long permisoId, boolean estado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Optional.ofNullable(permisoOtorgadoRepository.findByPermisoIdAndEstado(permisoId, estado));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<PermisoOtorgado>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Optional.ofNullable(permisoOtorgadoRepository.findByFechaRegistroBetween(startDate, endDate));
     }
 }

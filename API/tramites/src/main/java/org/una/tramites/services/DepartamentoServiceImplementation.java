@@ -19,11 +19,11 @@ import org.una.tramites.repositories.IDepartamentoRepository;
  * @author Luis
  */
 @Service
-public class DepartamentoServiceImplementation implements IDepartamentoService{
-    
+public class DepartamentoServiceImplementation implements IDepartamentoService {
+
     @Autowired
     private IDepartamentoRepository departamentoRepository;
-    
+
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Departamento>> findAll() {
@@ -35,7 +35,8 @@ public class DepartamentoServiceImplementation implements IDepartamentoService{
     public Optional<Departamento> findById(Long id) {
         return departamentoRepository.findById(id);
     }
-    
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<List<Departamento>> findByEstadoContaining(Boolean estado) {
         return Optional.ofNullable(departamentoRepository.findByEstadoContaining(estado));
@@ -46,8 +47,8 @@ public class DepartamentoServiceImplementation implements IDepartamentoService{
     public Departamento create(Departamento departamento) {
         return departamentoRepository.save(departamento);
     }
-    
-     @Override
+
+    @Override
     @Transactional
     public Optional<Departamento> update(Departamento departamento, Long id) {
         if (departamentoRepository.findById(id).isPresent()) {
@@ -64,7 +65,7 @@ public class DepartamentoServiceImplementation implements IDepartamentoService{
 
         departamentoRepository.deleteById(id);
     }
-    
+
     @Override
     @Transactional
     public void deleteAll() {

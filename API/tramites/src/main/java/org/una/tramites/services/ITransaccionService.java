@@ -37,5 +37,7 @@ public interface ITransaccionService {
     public Optional<Transaccion> update(Transaccion transaccionModified, Long id);
 
     public Optional<List<Transaccion>> findAll();
-
+    
+    public Optional<List<Transaccion>> findByEstadoContaining(Boolean estado);
+     
 }
