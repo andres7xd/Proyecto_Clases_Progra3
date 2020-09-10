@@ -45,7 +45,8 @@ public class SwaggerConfiguration {
                         new Tag("Permisos", "Entidad Permisos"),
                          new Tag("Permisos_Otorgados", "Entidad Permisos Otorgados"),
                           new Tag("Tramites_Tipos", "Entidad Tipos de tramites"),
-                           new Tag("Variaciones", "Entidad Tipos de variaciones")
+                           new Tag("Variaciones", "Entidad Tipos de variaciones"),
+                           new Tag("Requisitos", "Entidad Tipos de requisitos")
                 );
 
     }
