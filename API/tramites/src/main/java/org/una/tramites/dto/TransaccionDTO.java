@@ -18,4 +18,5 @@ public class TransaccionDTO {
     private Date fechaRegistro; 
     private String informacion;
     private PermisoOtorgado permisootorgado;
+    
 }

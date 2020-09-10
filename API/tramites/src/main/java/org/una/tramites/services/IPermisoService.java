@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.una.tramites.entities.Permiso;
+
 public interface IPermisoService {
   
     public Optional<Permiso> findById(Long id);
