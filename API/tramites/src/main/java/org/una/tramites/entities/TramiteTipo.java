@@ -31,7 +31,7 @@ import lombok.ToString;
  * @author andre
  */
 @Entity
-
+//comentario
 @Table(name = "tramite_tipo")
 
 @Data
