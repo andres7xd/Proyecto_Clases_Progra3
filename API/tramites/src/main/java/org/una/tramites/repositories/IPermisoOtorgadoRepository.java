@@ -18,8 +18,7 @@ import org.una.tramites.entities.PermisoOtorgado;
  */
 public interface IPermisoOtorgadoRepository extends JpaRepository<PermisoOtorgado, Long> {
 
-   // @Query("SELECT u FROM PermisoOtorgado u WHERE u.estado = estado_permiso_otorgado")
-    public List<PermisoOtorgado> findByEstadoContaining(Boolean estado);
+
 
     @Query("SELECT u FROM PermisoOtorgado u WHERE u.usuarios = usuarios_id")
     public List<PermisoOtorgado> findByUsuarioId(@Param("usuarios_id") Long usuarioId);

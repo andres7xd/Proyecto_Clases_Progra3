@@ -23,8 +23,6 @@ public interface IDepartamentoService {
 
     public Optional<Departamento> update(Departamento departamento, Long id);
 
-    public Optional<List<Departamento>> findByEstadoContaining(Boolean estado);
-
     public void delete(Long id);
 
     public void deleteAll();

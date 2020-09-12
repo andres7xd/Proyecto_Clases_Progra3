@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.una.tramites.entities.Requisito;
 import org.una.tramites.repositories.IRequisitoRepository;
 
@@ -36,7 +37,9 @@ public class RequisitoServiceImplementation implements IRequisitoService {
         return reqRepo.save(requisito);
     }
 
+    
     @Override
+    @Transactional
     public Optional<Requisito> update(Requisito requisito, Long id) {
         if(reqRepo.findById(id).isPresent()){
             return Optional.ofNullable(reqRepo.save(requisito));
@@ -55,6 +58,7 @@ public class RequisitoServiceImplementation implements IRequisitoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<List<Requisito>> findByDescripcion(String descripcion) {
         return Optional.ofNullable(reqRepo.findByDescripcion(descripcion));
     }

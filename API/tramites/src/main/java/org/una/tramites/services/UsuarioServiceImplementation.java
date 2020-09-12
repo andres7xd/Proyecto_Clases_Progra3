@@ -82,18 +82,26 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     }
 
     @Override
+    @Transactional()
     public Usuario findJefeByDepartamento(Long id) {
         return usuarioRepository.findJefeByDepartamento(id);
     }
     
-    public Usuario findByNombreCompleto(String nombreCompleto){
-         return usuarioRepository.findByNombreCompleto(nombreCompleto);
-    } 
+
+    @Transactional()
+    public Usuario findByNombreCompleto(String nombreCompleto) {
+        return usuarioRepository.findByNombreCompleto(nombreCompleto);
+    }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<List<Usuario>> findByDepartamentoId(Long id) {
         return Optional.ofNullable(usuarioRepository.findByDepartamentoId(id));
     }
-}
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Usuario> findByCedula(String cedula) {
+        return Optional.ofNullable(usuarioRepository.findByCedula(cedula));
+    }
+}

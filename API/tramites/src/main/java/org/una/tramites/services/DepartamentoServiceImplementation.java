@@ -35,13 +35,6 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
     public Optional<Departamento> findById(Long id) {
         return departamentoRepository.findById(id);
     }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<List<Departamento>> findByEstadoContaining(Boolean estado) {
-        return Optional.ofNullable(departamentoRepository.findByEstadoContaining(estado));
-    }
-
     @Override
     @Transactional
     public Departamento create(Departamento departamento) {

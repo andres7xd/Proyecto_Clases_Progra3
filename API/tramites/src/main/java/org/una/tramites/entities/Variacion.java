@@ -5,6 +5,7 @@
  */
 package org.una.tramites.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +39,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Variacion {
+public class Variacion implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id

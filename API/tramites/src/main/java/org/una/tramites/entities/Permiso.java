@@ -27,6 +27,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 /**
  *
  * @author rache
@@ -43,63 +44,43 @@ import lombok.ToString;
 
 @ToString
 
-
 public class Permiso implements Serializable {
-     
-   
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permisos") 
-    private List<PermisoOtorgado> permisoOtorgados= new ArrayList<>();
-    
+
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     @Column(name = "codigo", length = 10)
+    private String codigo;
 
-    private String nombre;
-    
     @Column(name = "descripcion", length = 100)
-
     private String descripcion;
 
-    @Column(name = "fecha_registro")
-
-    @Setter(AccessLevel.NONE)
-
+    @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
-
+    @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
 
     @Column(name = "fecha_modificacion")
-
     @Setter(AccessLevel.NONE)
-
     @Temporal(TemporalType.DATE)
-
     private Date fechaModificacion;
-    
+
+    @Column(name = "estado")
     private boolean estado;
-    
+
+    private static final long serialVersionUID = 1L;
+
     @PrePersist
-
     public void prePersist() {
-
         estado = true;
-
         fechaRegistro = new Date();
-
         fechaModificacion = new Date();
-
     }
 
     @PreUpdate
-
     public void preUpdate() {
-
         fechaModificacion = new Date();
-
     }
 
 }

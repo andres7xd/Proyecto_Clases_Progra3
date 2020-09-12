@@ -5,6 +5,7 @@
  */
 package org.una.tramites.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,7 +41,7 @@ import lombok.ToString;
 @NoArgsConstructor
 
 @ToString
-public class TramiteTipo {
+public class TramiteTipo implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id

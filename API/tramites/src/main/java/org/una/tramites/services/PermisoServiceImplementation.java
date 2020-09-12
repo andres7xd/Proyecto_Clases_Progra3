@@ -5,8 +5,6 @@
  */
 package org.una.tramites.services;
 
-
-
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +19,7 @@ import org.una.tramites.repositories.IPermisoRepository;
  * @author rache
  */
 @Service
-public class PermisoServiceImplementation implements IPermisoService{
+public class PermisoServiceImplementation implements IPermisoService {
 
     @Autowired
     private IPermisoRepository permisoRepository;
@@ -67,6 +65,16 @@ public class PermisoServiceImplementation implements IPermisoService{
         permisoRepository.deleteAll();
     }
 
-   
-   
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Permiso> findByCodigo(String codigo) {
+        return Optional.ofNullable(permisoRepository.findByCodigo(codigo));
+    }
+//
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Optional<List<Permiso>> findByCodigoAproximate(String codigo) {
+//        return Optional.ofNullable(permisoRepository.findByCodigoAproximate(codigo));
+//    }
+
 }

@@ -36,5 +36,7 @@ public interface IUsuarioService {
     public void deleteAll();
 
     public Optional<Usuario> login(Usuario usuario);
-    
+
+    public Optional<Usuario> findByCedula(String cedula);
+    //public String login(AuthenticationRequest authenticationRequest);
 }

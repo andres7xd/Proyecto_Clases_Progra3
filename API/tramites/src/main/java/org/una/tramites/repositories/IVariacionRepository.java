@@ -14,10 +14,8 @@ import org.una.tramites.entities.Variacion;
  * @author andre
  */
 public interface IVariacionRepository extends JpaRepository<Variacion, Long> {
-    
-    
+
     public List<Variacion> findByGrupo(String grupo);
-    
-    
+
     public List<Variacion> findByDescripcion(String descripcion);
 }

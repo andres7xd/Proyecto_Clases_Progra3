@@ -5,6 +5,7 @@
  */
 package org.una.tramites.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,34 +39,34 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Requisito {
-        private static final long serialVersionUID = 1L;
-    
+public class Requisito implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column
     private String descripcion;
-    
+
     @Column
     private boolean estado;
-    
+
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
-    
-    @ManyToOne 
-    @JoinColumn(name="variaciones_id")
+
+    @ManyToOne
+    @JoinColumn(name = "variaciones_id")
     private Variacion variaciones;
-    
+
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Requisitos") 
 //    private List<RequisitoPresentado> requisitosPresentados = new ArrayList<>();
-    
     @PrePersist
     public void prePersist() {
-        estado=true;
+        estado = true;
         fechaRegistro = new Date();
     }
 }
