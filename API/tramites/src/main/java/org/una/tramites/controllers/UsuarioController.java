@@ -91,7 +91,7 @@ public class UsuarioController {
             if (!token.isBlank()) {
                 authenticationResponse.setJwt(token);
                 //TODO: Complete this   authenticationResponse.setUsuario(usuario);
-                //TODO: Complete this    authenticationResponse.setPermisos(permisosOtorgados);
+               // TODO: Complete this    authenticationResponse.setPermisos(permisosOtorgados);
                 return new ResponseEntity(authenticationResponse, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);

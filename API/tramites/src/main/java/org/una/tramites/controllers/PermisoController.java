@@ -70,6 +70,22 @@ public class PermisoController {
         }
     }
     
+    @GetMapping("/codigo/{term}") 
+    public ResponseEntity<?> findByCodigo(@PathVariable(value = "codigo")String term) {
+        try {
+
+            Optional<Permiso> permisoFound = permisoService.findByCodigo(term);
+            if (permisoFound.isPresent()) {
+                PermisoDTO permisoDto = MapperUtils.DtoFromEntity(permisoFound.get(), PermisoDTO.class);
+                return new ResponseEntity<>(permisoDto, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/") 
     @ResponseBody
