@@ -6,10 +6,7 @@
 package org.una.tramites.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,42 +28,75 @@ import lombok.ToString;
 
 /**
  *
- * @author andre
+ * @author Luis
  */
 @Entity
-@Table(name = "Requisitos")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class Requisito implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+@Table(name = "Notas")
+
+@Data
+
+@AllArgsConstructor
+
+@NoArgsConstructor
+
+@ToString
+public class Notas implements Serializable {
+    
+//    @ManyToOne
+//    @JoinColumn(name = "Tramites_Registrados_Id")
+//    private Tramites_Registrados tramites_registrados;
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Column
-    private String descripcion;
+    @Column(name = "Titulo", length = 50)
 
-    @Column
-    private boolean estado;
+    private String titulo;
 
-    @Column(name = "fecha_registro", updatable = false)
-    @Temporal(TemporalType.DATE)
+    @Column(name = "Contenido", length = 50)
+
+    private String contenido;
+
+    @Column(name = "Fecha_Registro")
+
     @Setter(AccessLevel.NONE)
-    private Date fechaRegistro;
 
-    @ManyToOne
-    @JoinColumn(name = "variaciones_id")
-    private Variacion variaciones;
+    @Temporal(TemporalType.DATE)
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Requisitos_presentados") 
-    private List<Requisitos_Presentados> requisitos_presentados = new ArrayList<>();
-    @PrePersist
+    private Date fecha_registro;
+
+    @Column(name = "Fecha_Modificacion")
+
+    @Setter(AccessLevel.NONE)
+
+    @Temporal(TemporalType.DATE)
+
+    private Date fecha_modificacion;
+
+    private int estado;
+    
+    private int tipo;
+    
+     @PrePersist
+
     public void prePersist() {
-        estado = true;
-        fechaRegistro = new Date();
+
+        fecha_registro = new Date();
+
+        fecha_modificacion = new Date();
+
     }
+
+    @PreUpdate
+
+    public void preUpdate() {
+
+        fecha_modificacion = new Date();
+
+    }
+
 }

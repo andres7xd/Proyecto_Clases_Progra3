@@ -13,8 +13,8 @@ import org.una.tramites.entities.Departamento;
  *
  * @author Luis
  */
-
 public interface IDepartamentoRepository extends JpaRepository<Departamento, Long> {
- public List<Departamento> findByEstado(boolean estado);
+
+    public List<Departamento> findByEstado(boolean estado);
 
 }
