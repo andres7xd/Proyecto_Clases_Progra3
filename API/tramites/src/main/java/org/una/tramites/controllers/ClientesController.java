@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.una.tramites.dto.Parametros_GeneralesDTO;
-import org.una.tramites.entities.Parametros_Generales;
-import org.una.tramites.services.IParametros_GeneralesService;
+import org.una.tramites.dto.ClientesDTO;
+import org.una.tramites.entities.Clientes;
+import org.una.tramites.services.IClientesService;
 import org.una.tramites.utils.MapperUtils;
 
 /**
@@ -32,22 +32,22 @@ import org.una.tramites.utils.MapperUtils;
  * @author andre
  */
 @RestController
-@RequestMapping("/parametros_generales") 
-@Api(tags = {"Parametros_Generales"})
-public class Parametros_GeneralesController {
-
+@RequestMapping("/clientes") 
+@Api(tags = {"Clientes"})
+public class ClientesController {
+    
     @Autowired
-    private IParametros_GeneralesService parametrosgeneralesService;
+    private IClientesService clientesService;
     
     @GetMapping()
-    @ApiOperation(value = "Obtiene una lista de todos los Parametros Generales", response = Parametros_GeneralesDTO.class, responseContainer = "List", tags = "Parametros_Generales")
+    @ApiOperation(value = "Obtiene una lista de todos los Clientes", response = ClientesDTO.class, responseContainer = "List", tags = "Clientes")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Parametros_Generales>> result = parametrosgeneralesService.findAll();
+            Optional<List<Clientes>> result = clientesService.findAll();
             if (result.isPresent()) {
-                List<Parametros_GeneralesDTO> parametros_generalessDTO = MapperUtils.DtoListFromEntityList(result.get(), Parametros_GeneralesDTO.class);
-                return new ResponseEntity<>(parametros_generalessDTO, HttpStatus.OK);
+                List<ClientesDTO> clientessDTO = MapperUtils.DtoListFromEntityList(result.get(), ClientesDTO.class);
+                return new ResponseEntity<>(clientessDTO, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -60,10 +60,10 @@ public class Parametros_GeneralesController {
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
-            Optional<Parametros_Generales> parametros_generalesFound = parametrosgeneralesService.findById(id);
-            if (parametros_generalesFound.isPresent()) {
-                Parametros_GeneralesDTO parametros_generalesDto = MapperUtils.DtoFromEntity(parametros_generalesFound.get(), Parametros_GeneralesDTO.class);
-                return new ResponseEntity<>(parametros_generalesDto, HttpStatus.OK);
+            Optional<Clientes> clientesFound = clientesService.findById(id);
+            if (clientesFound.isPresent()) {
+                ClientesDTO clientesDto = MapperUtils.DtoFromEntity(clientesFound.get(), ClientesDTO.class);
+                return new ResponseEntity<>(clientesDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -76,12 +76,12 @@ public class Parametros_GeneralesController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
-    @ApiOperation(value = "Creacion de Parametros_Generales:", response = Parametros_GeneralesDTO.class, tags = "Parametros_Generales")
-    public ResponseEntity<?> create(@RequestBody Parametros_Generales parametros_generales) {
+    @ApiOperation(value = "Creacion de Clientes:", response = ClientesDTO.class, tags = "Clientes")
+    public ResponseEntity<?> create(@RequestBody Clientes clientes) {
         try {
-            Parametros_Generales parametros_generalesCreated = parametrosgeneralesService.create(parametros_generales);
-            Parametros_GeneralesDTO parametros_generalesDto = MapperUtils.DtoFromEntity(parametros_generalesCreated, Parametros_GeneralesDTO.class);
-            return new ResponseEntity<>(parametros_generalesDto, HttpStatus.CREATED);
+            Clientes clientesCreated = clientesService.create(clientes);
+            ClientesDTO clientesDto = MapperUtils.DtoFromEntity(clientesCreated, ClientesDTO.class);
+            return new ResponseEntity<>(clientesDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,13 +89,13 @@ public class Parametros_GeneralesController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    @ApiOperation(value = "Actualizacion de Parametros_Generales:", response = Parametros_GeneralesDTO.class, tags = "Parametros_Generales")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Parametros_Generales parametros_generalesModified) {
+    @ApiOperation(value = "Actualizacion de Clientes:", response = ClientesDTO.class, tags = "Clientes")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Clientes clientesModified) {
         try {
-            Optional<Parametros_Generales> parametros_generalesUpdated = parametrosgeneralesService.update(parametros_generalesModified, id);
-            if (parametros_generalesUpdated.isPresent()) {
-                Parametros_GeneralesDTO parametros_generalesDto = MapperUtils.DtoFromEntity(parametros_generalesUpdated.get(), Parametros_GeneralesDTO.class);
-                return new ResponseEntity<>(parametros_generalesDto, HttpStatus.OK);
+            Optional<Clientes> clientesUpdated = clientesService.update(clientesModified, id);
+            if (clientesUpdated.isPresent()) {
+                ClientesDTO clientesDto = MapperUtils.DtoFromEntity(clientesUpdated.get(), ClientesDTO.class);
+                return new ResponseEntity<>(clientesDto, HttpStatus.OK);
 
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -118,4 +118,5 @@ public class Parametros_GeneralesController {
         return null;
 
     }
+    
 }
