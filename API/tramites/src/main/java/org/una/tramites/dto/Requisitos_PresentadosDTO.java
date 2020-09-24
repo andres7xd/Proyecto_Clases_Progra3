@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.una.tramites.entities.Requisito;
+import org.una.tramites.entities.Tramites_Registrados;
 
 /**
  *
@@ -24,6 +25,6 @@ public class Requisitos_PresentadosDTO {
 
     private Long id;
     private Date fecha_registro; 
-//    private Tramites_Registrados Tramites_registrados_Id;
+    private Tramites_Registrados Tramites_registrados_Id;
     private Requisito requisito;
 }
