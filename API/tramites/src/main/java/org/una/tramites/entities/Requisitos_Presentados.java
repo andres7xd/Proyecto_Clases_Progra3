@@ -49,8 +49,6 @@ public class Requisitos_Presentados implements Serializable {
    @JoinColumn(name = "Requisito_Id")
    private Requisito Requisitos;
   
-    
-    
     @Id
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
