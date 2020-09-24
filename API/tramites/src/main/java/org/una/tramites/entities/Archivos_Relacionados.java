@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -35,9 +37,10 @@ import lombok.ToString;
 
 @ToString
 public class Archivos_Relacionados implements Serializable {
-//    @ManyToOne
-//    @JoinColumn(name = "Tramites_Registrados_Id")
-//    private Tramites_Registrados tramites_registrados;
+   
+    @ManyToOne
+    @JoinColumn(name = "Tramites_Registrados_Id")
+    private Tramites_Registrados Tramites_Registrados;
 
     @Id
 

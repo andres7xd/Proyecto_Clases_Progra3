@@ -41,13 +41,13 @@ import lombok.ToString;
 @ToString
 public class Requisitos_Presentados implements Serializable {
     
-//   @ManyToOne
-//   @JoinColumn(name = "Tramites_Registrados_Id")
-//   private Tramites_Registrados tramites_registrados;
-//   
-//   @ManyToOne
-//   @JoinColumn(name = "Requisito_Id")
-//   private Requisito requisito;
+   @ManyToOne
+   @JoinColumn(name = "Tramites_Registrados_Id")
+   private Tramites_Registrados Tramites_Registrados;
+   
+   @ManyToOne
+   @JoinColumn(name = "Requisito_Id")
+   private Requisito Requisitos;
   
     
     

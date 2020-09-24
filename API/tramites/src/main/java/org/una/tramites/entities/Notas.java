@@ -43,9 +43,9 @@ import lombok.ToString;
 @ToString
 public class Notas implements Serializable {
     
-//    @ManyToOne
-//    @JoinColumn(name = "Tramites_Registrados_Id")
-//    private Tramites_Registrados tramites_registrados;
+    @ManyToOne
+    @JoinColumn(name = "Tramites_Registrados_Id")
+    private Tramites_Registrados Tramites_Registrados;
 
     @Id
 

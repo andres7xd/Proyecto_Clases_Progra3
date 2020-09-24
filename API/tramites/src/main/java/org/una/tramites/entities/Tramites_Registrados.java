@@ -43,14 +43,14 @@ public class Tramites_Registrados implements Serializable{
 //    @JoinColumn(name = "Clientes_Id")
 //    private Clientes clientes;
     
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Notas") 
-//    private List<Notas> notas = new ArrayList<>();
-//    
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Archivos_Relacionados") 
-//    private List<Archivos_Relacionados> archivos_relacionados = new ArrayList<>();
-//    
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Requisitos_Presentados") 
-//    private List<Requisitos_Presentados> requisitos_presentados = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Registrados") 
+    private List<Notas> notas = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Registrados") 
+    private List<Archivos_Relacionados> archivos_relacionados = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Registrados") 
+    private List<Requisitos_Presentados> requisitos_presentados = new ArrayList<>();
 //    
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Cambios_Estados") 
 //    private List<Tramites_Cambios_Estados> tramites_cambios_estados = new ArrayList<>();

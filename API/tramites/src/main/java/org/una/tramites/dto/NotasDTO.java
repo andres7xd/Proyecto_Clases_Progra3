@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.una.tramites.entities.Tramites_Registrados;
 
 /**
  *
@@ -28,6 +29,6 @@ public class NotasDTO {
     private Date fecha_modificacion;
     private int estado;
     private int tipo;
-//    private Tramites_Registrados Tramites_registrados_Id
+    private Tramites_Registrados tramites_registrados;
     
 }
