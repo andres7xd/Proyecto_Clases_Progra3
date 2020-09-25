@@ -39,9 +39,9 @@ import lombok.ToString;
 @ToString
 public class Tramites_Registrados implements Serializable{
     
-//    @ManyToOne
-//    @JoinColumn(name = "Clientes_Id")
-//    private Clientes clientes;
+    @ManyToOne
+    @JoinColumn(name = "Clientes_Id")
+    private Clientes clientes;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Registrados") 
     private List<Notas> notas = new ArrayList<>();
@@ -52,8 +52,8 @@ public class Tramites_Registrados implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Registrados") 
     private List<Requisitos_Presentados> requisitos_presentados = new ArrayList<>();
 //    
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Cambios_Estados") 
-//    private List<Tramites_Cambios_Estados> tramites_cambios_estados = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Tramites_Registrados") 
+    private List<Tramites_Cambios_Estados> tramites_cambios_estados = new ArrayList<>();
     
     @Id
 

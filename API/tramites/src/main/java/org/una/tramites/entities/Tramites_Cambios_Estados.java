@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,7 +40,19 @@ import lombok.ToString;
 
 @ToString
 public class Tramites_Cambios_Estados implements Serializable{
-
+    
+    @ManyToOne
+    @JoinColumn(name = "usuarios_id")
+    private Usuario usuarios;
+    
+    @ManyToOne
+    @JoinColumn(name = "tramites_estados_id")
+    private Tramites_Estados Tramites_Estados;
+    
+    @ManyToOne
+    @JoinColumn(name = "tramites_registrados_id")
+    private Tramites_Registrados Tramites_Registrados;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,4 +61,6 @@ public class Tramites_Cambios_Estados implements Serializable{
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
     private Date fechaRegistro;
+    
+    
 }

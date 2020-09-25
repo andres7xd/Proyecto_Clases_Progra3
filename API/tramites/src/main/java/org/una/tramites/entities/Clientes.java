@@ -6,12 +6,16 @@
 package org.una.tramites.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,6 +43,10 @@ import lombok.ToString;
 @ToString
 public class Clientes implements Serializable {
 
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientes") 
+    private List<Tramites_Registrados> tramites_registrados = new ArrayList<>();
+     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

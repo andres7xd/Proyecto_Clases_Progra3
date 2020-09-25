@@ -55,6 +55,9 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarios") 
     private List<PermisoOtorgado> permisoOtorgados= new ArrayList<>();
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarios") 
+    private List<Tramites_Cambios_Estados> tramitescambiosestados= new ArrayList<>();
+    
 
     @Id
 

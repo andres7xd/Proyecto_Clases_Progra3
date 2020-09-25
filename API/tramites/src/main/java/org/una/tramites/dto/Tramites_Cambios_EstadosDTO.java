@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.una.tramites.entities.Tramites_Estados;
+import org.una.tramites.entities.Tramites_Registrados;
+import org.una.tramites.entities.Usuario;
 
 /**
  *
@@ -23,7 +26,7 @@ public class Tramites_Cambios_EstadosDTO {
      
     private Date fechaRegistro;
     private Long id;
-//    private Usuarios usuarios;
-//    private Tramites_Registrados tramitesregistrados;
-//    private Tramites_Estados tramitesestados;
+    private Usuario usuarios;
+   private Tramites_Registrados Tramites_Registrados;
+    private Tramites_Estados Tramites_Estados;
 }

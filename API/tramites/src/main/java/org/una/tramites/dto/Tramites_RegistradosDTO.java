@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.una.tramites.entities.Clientes;
 
 /**
  *
@@ -21,7 +22,7 @@ import lombok.ToString;
 public class Tramites_RegistradosDTO {
     
     private Long Id;
-//    Clientes clientes;
+    Clientes clientes;
     private int Tramites_Tipos_Id;
 
 }
