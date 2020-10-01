@@ -86,13 +86,14 @@ public class UsuarioController {
             return new ResponseEntity("La información no esta bien formada o no coincide con el formato esperado", HttpStatus.BAD_REQUEST);
         }
         try {
-            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-            String token = usuarioService.login(authenticationRequest);
-            if (!token.isBlank()) {
-                authenticationResponse.setJwt(token);
+          //  AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+            AuthenticationResponse token = usuarioService.login(authenticationRequest);
+            String Stoken = String.valueOf(token);
+            if (!Stoken.isBlank()) {
+              //  token.setJwt(Stoken);
                 //TODO: Complete this   authenticationResponse.setUsuario(usuario);
                // TODO: Complete this    authenticationResponse.setPermisos(permisosOtorgados);
-                return new ResponseEntity(authenticationResponse, HttpStatus.OK);
+                return new ResponseEntity(token, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);
             }
