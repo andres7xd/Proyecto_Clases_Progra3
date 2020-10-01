@@ -34,7 +34,7 @@ import org.una.tramites.repositories.IUsuarioRepository;
 import org.una.tramites.utils.MapperUtils;
 
 @Service
-public class UsuarioServiceImplementation implements IUsuarioService, UserDetailsService {
+public class UsuarioServiceImplementation implements IUsuarioService {
     
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -139,20 +139,20 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuarioBuscado = findByCedula(username);
-        if (usuarioBuscado.isPresent()) {
-            Usuario usuario = usuarioBuscado.get();
-            List<GrantedAuthority> roles = new ArrayList<>();
-            roles.add(new SimpleGrantedAuthority("ADMIN"));
-            UserDetails userDetails = new User(usuario.getCedula(),
-                    usuario.getPasswordEncriptado(), roles);
-            return userDetails;
-        } else {
-            return null;
-        }
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Optional<Usuario> usuarioBuscado = findByCedula(username);
+//        if (usuarioBuscado.isPresent()) {
+//            Usuario usuario = usuarioBuscado.get();
+//            List<GrantedAuthority> roles = new ArrayList<>();
+//            roles.add(new SimpleGrantedAuthority("ADMIN"));
+//            UserDetails userDetails = new User(usuario.getCedula(),
+//                    usuario.getPasswordEncriptado(), roles);
+//            return userDetails;
+//        } else {
+//            return null;
+//        }
+//    }
 
 //    @Override
 //    public String login(AuthenticationRequest authenticationRequest) {
@@ -162,29 +162,31 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
 //        return jwtProvider.generateToken(authenticationRequest);
 //    }
     
-    @Override
-    @Transactional(readOnly = true)
-    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
+//    @Override
+//    @Transactional(readOnly = true)
+//    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
+//
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+//
+//        Optional<Usuario> usuario = findByCedula(authenticationRequest.getCedula());
+//
+//        if (usuario.isPresent()) {
+//            authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
+//            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
+//            authenticationResponse.setUsuario(usuarioDto);
+//            List<PermisoOtorgadoDTO> permisosOtorgadosDto = MapperUtils.DtoListFromEntityList(usuario.get().getPermisoOtorgados(), PermisoOtorgadoDTO.class);
+//            authenticationResponse.setPermisos(permisosOtorgadosDto);
+//
+//            return authenticationResponse;
+//        } else {
+//            return null;
+//        }
+//
+//    }
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-
-        Optional<Usuario> usuario = findByCedula(authenticationRequest.getCedula());
-
-        if (usuario.isPresent()) {
-            authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
-            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
-            authenticationResponse.setUsuario(usuarioDto);
-            List<PermisoOtorgadoDTO> permisosOtorgadosDto = MapperUtils.DtoListFromEntityList(usuario.get().getPermisoOtorgados(), PermisoOtorgadoDTO.class);
-            authenticationResponse.setPermisos(permisosOtorgadosDto);
-
-            return authenticationResponse;
-        } else {
-            return null;
-        }
-
-    }
+  
 
 
 }
