@@ -28,6 +28,7 @@ import org.una.tramites.dto.AuthenticationRequest;
 import org.una.tramites.dto.AuthenticationResponse;
 import org.una.tramites.dto.PermisoOtorgadoDTO;
 import org.una.tramites.dto.UsuarioDTO;
+import org.una.tramites.entities.PermisoOtorgado;
 import org.una.tramites.entities.Usuario;
 import org.una.tramites.jwt.JwtProvider;
 import org.una.tramites.repositories.IUsuarioRepository;
@@ -139,20 +140,43 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
         }
     }
 
-    @Override
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Optional<Usuario> usuarioBuscado = findByCedula(username);
+//        if (usuarioBuscado.isPresent()) {
+//            Usuario usuario = usuarioBuscado.get();
+//            List<GrantedAuthority> roles = new ArrayList<>();
+//            roles.add(new SimpleGrantedAuthority("ADMIN"));
+//            UserDetails userDetails = new User(usuario.getCedula(),
+//                    usuario.getPasswordEncriptado(), roles);
+//            return userDetails;
+//        } else {
+//            return null;
+//        }
+//    }
+    
+       @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuarioBuscado = findByCedula(username);
+        Optional<Usuario> usuarioBuscado = Optional.ofNullable(usuarioRepository.findByCedula(username));
         if (usuarioBuscado.isPresent()) {
             Usuario usuario = usuarioBuscado.get();
             List<GrantedAuthority> roles = new ArrayList<>();
-            roles.add(new SimpleGrantedAuthority("ADMIN"));
-            UserDetails userDetails = new User(usuario.getCedula(),
-                    usuario.getPasswordEncriptado(), roles);
+            for (PermisoOtorgado p : usuario.getPermisoOtorgados()) {
+                roles.add(new SimpleGrantedAuthority(p.getPermisos().getDescripcion()));
+            }
+//            for (GrantedAuthority role : roles) {
+//                System.out.println("org.una.tramites.services.AutenticacionLoginServiceImplementation.loadUserByUsername()"+role);
+//            }
+            //roles.add(new SimpleGrantedAuthority("ADMIN"));
+            UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
             return userDetails;
         } else {
             return null;
         }
+
     }
+
 
 //    @Override
 //    public String login(AuthenticationRequest authenticationRequest) {
