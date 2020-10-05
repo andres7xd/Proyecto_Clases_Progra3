@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.una.tramites.jwt.JwtAuthenticationEntryPoint;
 import org.una.tramites.jwt.JwtAuthenticationFilter;
+import org.una.tramites.services.AuthenticationServiceImplementation;
 import org.una.tramites.services.UsuarioServiceImplementation;
 
 /**
@@ -31,7 +32,7 @@ import org.una.tramites.services.UsuarioServiceImplementation;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UsuarioServiceImplementation userService;
+    private AuthenticationServiceImplementation authenticationServiceImplementation;
     @Autowired
     private BCryptPasswordEncoder bCrypt;
 
@@ -47,13 +48,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
             throws Exception {
-        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(bCrypt);
+        authenticationManagerBuilder.userDetailsService(authenticationServiceImplementation).passwordEncoder(bCrypt);
     }
 
   @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/usuarios/**", "/v2/api-docs",
+                .authorizeRequests().antMatchers("/authentication/**", "/v2/api-docs",
                         "/swagger-resources/**",
                         "/swagger-ui.html**",
                         "/webjars/**").permitAll()
