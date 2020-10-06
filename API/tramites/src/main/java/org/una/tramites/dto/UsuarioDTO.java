@@ -6,6 +6,7 @@
 package org.una.tramites.dto;
 
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,8 @@ public class UsuarioDTO {
     private Long departamentoId; 
     private boolean esJefe;
     private Departamento departamento;
-     
+    private String passwordEncriptado;
+    private List<PermisoOtorgadoDTO> permisoOtorgado;
    
 }
 

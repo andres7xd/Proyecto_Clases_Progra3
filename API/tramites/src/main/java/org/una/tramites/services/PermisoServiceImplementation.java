@@ -11,8 +11,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.PermisoDTO;
 import org.una.tramites.entities.Permiso;
 import org.una.tramites.repositories.IPermisoRepository;
+import org.una.tramites.utils.Convertir;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -23,29 +26,39 @@ public class PermisoServiceImplementation implements IPermisoService {
 
     @Autowired
     private IPermisoRepository permisoRepository;
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<PermisoDTO>> findAll() {
+        return  (Optional<List<PermisoDTO>>) Convertir.findList(Optional.ofNullable(permisoRepository.findAll()), PermisoDTO.class);
+    }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Permiso> findById(Long id) {
-        return permisoRepository.findById(id);
+    public Optional<PermisoDTO> findById(Long id) {
+        return (Optional<PermisoDTO>) Convertir.oneToDto(permisoRepository.findById(id), PermisoDTO.class);
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<Permiso>> findByEstado(boolean estado) {
-        return Optional.ofNullable(permisoRepository.findByEstadoContaining(estado));
+    public Optional<List<PermisoDTO>> findByEstado(boolean estado) {
+        return (Optional<List<PermisoDTO>>) Convertir.findList(permisoRepository.findByEstadoContaining(estado), PermisoDTO.class);
     }
 
     @Override
     @Transactional
-    public Permiso create(Permiso permiso) {
-        return permisoRepository.save(permiso);
+    public PermisoDTO create(PermisoDTO permisoDTO) {
+        Permiso permiso = MapperUtils.EntityFromDto(permisoDTO, Permiso.class);
+        permiso = permisoRepository.save(permiso);
+        return MapperUtils.DtoFromEntity(permiso, PermisoDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Permiso> update(Permiso permiso, Long id) {
+    public Optional<PermisoDTO> update(PermisoDTO permisoDTO, Long id) {
         if (permisoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(permisoRepository.save(permiso));
+            Permiso permiso = MapperUtils.EntityFromDto(permisoDTO, Permiso.class);
+            permiso = permisoRepository.save(permiso);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(permiso, PermisoDTO.class));
         } else {
             return null;
         }
@@ -67,8 +80,8 @@ public class PermisoServiceImplementation implements IPermisoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Permiso> findByCodigo(String codigo) {
-        return Optional.ofNullable(permisoRepository.findByCodigo(codigo));
+    public Optional<PermisoDTO> findByCodigo(String codigo) {
+        return (Optional<PermisoDTO>) Convertir.oneToDto(Optional.ofNullable(permisoRepository.findByCodigo(codigo)), PermisoDTO.class);
     }
 //
 //    @Override

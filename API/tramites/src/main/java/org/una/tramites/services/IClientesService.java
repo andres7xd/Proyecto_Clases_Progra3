@@ -7,22 +7,23 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Clientes;
+import org.una.tramites.dto.ClientesDTO;
 
 /**
  *
  * @author andre
  */
 public interface IClientesService {
-     public Optional<Clientes> findById(Long id);
+    
+    public Optional<ClientesDTO> findById(Long id);
 
-    public Clientes create(Clientes clientes);
+    public ClientesDTO create(ClientesDTO clientesDTO);
 
-    public Optional<Clientes> update(Clientes clientes, Long id);
+    public Optional<ClientesDTO> update(ClientesDTO clientesDTO, Long id);
 
     public void delete(Long id);
 
     public void deleteAll();
 
-    public Optional<List<Clientes>> findAll();
+    public Optional<List<ClientesDTO>> findAll();
 }

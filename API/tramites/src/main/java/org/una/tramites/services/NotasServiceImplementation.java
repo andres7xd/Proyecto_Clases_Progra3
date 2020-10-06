@@ -10,8 +10,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.NotasDTO;
 import org.una.tramites.entities.Notas;
 import org.una.tramites.repositories.INotasRepository;
+import org.una.tramites.utils.Convertir;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -25,30 +28,34 @@ public class NotasServiceImplementation implements INotasService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Notas>> findAll() {
-        return Optional.ofNullable(notasRepository.findAll());
+    public Optional<List<NotasDTO>> findAll() {
+       return (Optional<List<NotasDTO>>) Convertir.findList(Optional.ofNullable(notasRepository.findAll()), NotasDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Notas> findById(Long id) {
-        return notasRepository.findById(id);
+    public Optional<NotasDTO> findById(Long id) {
+        return (Optional<NotasDTO>) Convertir.oneToDto(notasRepository.findById(id), NotasDTO.class);
     }
+    
     @Override
     @Transactional
-    public Notas create(Notas notas) {
-        return notasRepository.save(notas);
+    public NotasDTO create(NotasDTO notasDTO) {
+        Notas notas = MapperUtils.EntityFromDto(notasDTO, Notas.class);
+        notas = notasRepository.save(notas);
+        return MapperUtils.DtoFromEntity(notas, NotasDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Notas> update(Notas notas, Long id) {
-        if (notasRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(notasRepository.save(notas));
+    public Optional<NotasDTO> update(NotasDTO notasDTO, Long id) {
+       if (notasRepository.findById(id).isPresent()) {
+            Notas notas = MapperUtils.EntityFromDto(notasDTO, Notas.class);
+            notas = notasRepository.save(notas);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(notas, NotasDTO.class));
         } else {
             return null;
         }
-
     }
 
     @Override

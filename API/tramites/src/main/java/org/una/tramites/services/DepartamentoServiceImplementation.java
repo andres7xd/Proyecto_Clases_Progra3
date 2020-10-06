@@ -11,8 +11,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.DepartamentoDTO;
 import org.una.tramites.entities.Departamento;
 import org.una.tramites.repositories.IDepartamentoRepository;
+import org.una.tramites.utils.Convertir;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -26,30 +29,33 @@ public class DepartamentoServiceImplementation implements IDepartamentoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Departamento>> findAll() {
-        return Optional.ofNullable(departamentoRepository.findAll());
+    public Optional<List<DepartamentoDTO>> findAll() {
+       return  (Optional<List<DepartamentoDTO>>) Convertir.findList(Optional.ofNullable(departamentoRepository.findAll()), DepartamentoDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Departamento> findById(Long id) {
-        return departamentoRepository.findById(id);
+    public Optional<DepartamentoDTO> findById(Long id) {
+       return (Optional<DepartamentoDTO>) Convertir.oneToDto(departamentoRepository.findById(id), DepartamentoDTO.class);
     }
     @Override
     @Transactional
-    public Departamento create(Departamento departamento) {
-        return departamentoRepository.save(departamento);
+    public DepartamentoDTO create(DepartamentoDTO departamentoDTO) {
+        Departamento departamento = MapperUtils.EntityFromDto(departamentoDTO, Departamento.class);
+        departamento = departamentoRepository.save(departamento);
+        return MapperUtils.DtoFromEntity(departamento, DepartamentoDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Departamento> update(Departamento departamento, Long id) {
+    public Optional<DepartamentoDTO> update(DepartamentoDTO departamentoDTO, Long id) {
         if (departamentoRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(departamentoRepository.save(departamento));
+            Departamento departamento = MapperUtils.EntityFromDto(departamentoDTO, Departamento.class);
+            departamento = departamentoRepository.save(departamento);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(departamento, DepartamentoDTO.class));
         } else {
             return null;
         }
-
     }
 
     @Override

@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.ClientesDTO;
 import org.una.tramites.entities.Clientes;
 import org.una.tramites.repositories.IClientesRepository;
+import org.una.tramites.utils.Convertir;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -20,42 +23,46 @@ import org.una.tramites.repositories.IClientesRepository;
  */
 @Service
 public class IClientesServiceImplementation implements IClientesService {
-    
+
     @Autowired
     private IClientesRepository clientesRepository;
-    
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    
+
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Clientes>> findAll() {
-        return Optional.ofNullable(clientesRepository.findAll());
+    public Optional<List<ClientesDTO>> findAll() {
+        return (Optional<List<ClientesDTO>>) Convertir.findList(Optional.ofNullable(clientesRepository.findAll()), ClientesDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Clientes> findById(Long id) {
-        return clientesRepository.findById(id);
-    }
-    
-       @Override
-    @Transactional
-    public Clientes create(Clientes clientes) {
-        encriptarPassword(clientes);
-        return clientesRepository.save(clientes);
+    public Optional<ClientesDTO> findById(Long id) {
+        return (Optional<ClientesDTO>) Convertir.oneToDto(clientesRepository.findById(id), ClientesDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Clientes> update(Clientes clientes, Long id) {
+    public ClientesDTO create(ClientesDTO clientesDTO) {
+        encriptarPassword(clientesDTO);
+        Clientes clientes = MapperUtils.EntityFromDto(clientesDTO, Clientes.class);
+        clientes = clientesRepository.save(clientes);
+        return MapperUtils.DtoFromEntity(clientes, ClientesDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public Optional<ClientesDTO> update(ClientesDTO clientesDTO, Long id) {
         if (clientesRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(clientesRepository.save(clientes));
+            Clientes clientes = MapperUtils.EntityFromDto(clientesDTO, Clientes.class);
+            clientes = clientesRepository.save(clientes);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(clientes, ClientesDTO.class));
         } else {
             return null;
         }
     }
-    
+
     @Override
     @Transactional
     public void delete(Long id) {
@@ -68,12 +75,11 @@ public class IClientesServiceImplementation implements IClientesService {
     public void deleteAll() {
         clientesRepository.deleteAll();
     }
-    
-    
-      private void encriptarPassword(Clientes clientes) {
-        String password = clientes.getPasswordEncriptado();
+
+    private void encriptarPassword(ClientesDTO clientesDTO) {
+        String password = clientesDTO.getPasswordEncriptado();
         if (!password.isBlank()) {
-            clientes.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
+            clientesDTO.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
         }
     }
 }

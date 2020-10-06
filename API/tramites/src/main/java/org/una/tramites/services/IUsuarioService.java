@@ -7,7 +7,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Usuario;
+import org.una.tramites.dto.UsuarioDTO;
 
 /**
  *
@@ -15,28 +15,28 @@ import org.una.tramites.entities.Usuario;
  */
 public interface IUsuarioService {
 
-    public Optional<List<Usuario>> findAll();
+    public Optional<List<UsuarioDTO>> findAll();
 
-    public Optional<Usuario> findById(Long id);
+    public Optional<UsuarioDTO> findById(Long id);
 
-    public Optional<List<Usuario>> findByCedulaAproximate(String cedula);
+    public Optional<List<UsuarioDTO>> findByCedulaAproximate(String cedula);
 
-    public Optional<List<Usuario>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto);
+    public Optional<List<UsuarioDTO>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto);
 
-    public Usuario create(Usuario usuario);
+    public UsuarioDTO create(UsuarioDTO usuarioDTO);
 
-    public Optional<Usuario> update(Usuario usuario, Long id);
+    public Optional<UsuarioDTO> update(UsuarioDTO usuarioDTO, Long id);
 
-    public Optional<List<Usuario>> findByDepartamentoId(Long id);
+    public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id);
 
-    public Usuario findJefeByDepartamento(Long id);
+    public Optional<UsuarioDTO> findJefeByDepartamento(Long id);
 
     public void delete(Long id);
 
     public void deleteAll();
 
-    public Optional<Usuario> login(Usuario usuario);
+//    public Optional<UsuarioDTO> login(Usuario usuario);
 
-    public Optional<Usuario> findByCedula(String cedula);
+    public Optional<UsuarioDTO> findByCedula(String cedula);
     
 }

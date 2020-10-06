@@ -24,6 +24,6 @@ public class PermisoOtorgadoDTO {
      private Long id; 
      private Date fechaRegistro; 
      private boolean estado;
-     private Permiso permiso;
-     private Usuario usuario;
+     private PermisoDTO permiso;
+     private UsuarioDTO usuario;
 }

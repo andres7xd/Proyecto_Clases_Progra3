@@ -10,45 +10,52 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.Requisitos_PresentadosDTO;
 import org.una.tramites.entities.Requisitos_Presentados;
 import org.una.tramites.repositories.IRequisitos_PresentadosRepository;
+import org.una.tramites.utils.Convertir;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
  * @author Luis
  */
 @Service
-public class Requisitos_PresentadosServiceImplementation implements IRequisitos_PresentadosService{
-    
+public class Requisitos_PresentadosServiceImplementation implements IRequisitos_PresentadosService {
+
     @Autowired
     private IRequisitos_PresentadosRepository requisitos_presentadosRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Requisitos_Presentados>> findAll() {
-        return Optional.ofNullable(requisitos_presentadosRepository.findAll());
+    public Optional<List<Requisitos_PresentadosDTO>> findAll() {
+        return (Optional<List<Requisitos_PresentadosDTO>>) Convertir.findList(Optional.ofNullable(requisitos_presentadosRepository.findAll()), Requisitos_PresentadosDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Requisitos_Presentados> findById(Long id) {
-        return requisitos_presentadosRepository.findById(id);
-    }
-    @Override
-    @Transactional
-    public Requisitos_Presentados create(Requisitos_Presentados requisitos_presentados) {
-        return requisitos_presentadosRepository.save(requisitos_presentados);
+    public Optional<Requisitos_PresentadosDTO> findById(Long id) {
+        return (Optional<Requisitos_PresentadosDTO>) Convertir.oneToDto(requisitos_presentadosRepository.findById(id), Requisitos_PresentadosDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Requisitos_Presentados> update(Requisitos_Presentados requisitos_presentados, Long id) {
+    public Requisitos_PresentadosDTO create(Requisitos_PresentadosDTO requisitos_presentadosDTO) {
+        Requisitos_Presentados requisitos_presentados = MapperUtils.EntityFromDto(requisitos_presentadosDTO, Requisitos_Presentados.class);
+        requisitos_presentados = requisitos_presentadosRepository.save(requisitos_presentados);
+        return MapperUtils.DtoFromEntity(requisitos_presentados, Requisitos_PresentadosDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Requisitos_PresentadosDTO> update(Requisitos_PresentadosDTO requisitos_presentadosDTO, Long id) {
         if (requisitos_presentadosRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(requisitos_presentadosRepository.save(requisitos_presentados));
+            Requisitos_Presentados requisitos_presentados = MapperUtils.EntityFromDto(requisitos_presentadosDTO, Requisitos_Presentados.class);
+            requisitos_presentados = requisitos_presentadosRepository.save(requisitos_presentados);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(requisitos_presentados, Requisitos_PresentadosDTO.class));
         } else {
             return null;
         }
-
     }
 
     @Override
@@ -61,6 +68,7 @@ public class Requisitos_PresentadosServiceImplementation implements IRequisitos_
     @Override
     @Transactional
     public void deleteAll() {
+        
         requisitos_presentadosRepository.deleteAll();
     }
 }

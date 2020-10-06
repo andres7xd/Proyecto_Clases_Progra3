@@ -7,11 +7,13 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,95 +25,99 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.Requisitos_PresentadosDTO;
-import org.una.tramites.entities.Requisitos_Presentados;
 import org.una.tramites.services.IRequisitos_PresentadosService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
  * @author Luis
  */
 @RestController
-@RequestMapping("/requisitos_presentados") 
+@RequestMapping("/requisitos_presentados")
 @Api(tags = {"Requisitos_Presentados"})
 
 public class Requisitos_PresentadosController {
-    
+
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
+
     @Autowired
     private IRequisitos_PresentadosService requisitos_presentadosService;
 
-    @GetMapping() 
+    @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los requisitos presentados", response = Requisitos_PresentadosDTO.class, responseContainer = "List", tags = "Requisitos_Presentados")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Requisitos_Presentados>> result = requisitos_presentadosService.findAll();
-            if (result.isPresent()) {
-                List<Requisitos_PresentadosDTO> requisitos_presentadosDTO = MapperUtils.DtoListFromEntityList(result.get(), Requisitos_PresentadosDTO.class);
-                return new ResponseEntity<>(requisitos_presentadosDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(requisitos_presentadosService.findAll(), HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    @GetMapping("/{id}") 
+
+    @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<Requisitos_Presentados> requisitos_presentadosFound = requisitos_presentadosService.findById(id);
-            if (requisitos_presentadosFound.isPresent()) {
-                Requisitos_PresentadosDTO requisitos_presentadosDto = MapperUtils.DtoFromEntity(requisitos_presentadosFound.get(), Requisitos_PresentadosDTO.class);
-                return new ResponseEntity<>(requisitos_presentadosDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(requisitos_presentadosService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/") 
+    @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de una requisito presentado:", response = Requisitos_PresentadosDTO.class, tags = "Requisitos_Presentados")
-    public ResponseEntity<?> create(@RequestBody Requisitos_Presentados requisitos_presentados) {
-        try {
-            Requisitos_Presentados requisitos_presentadosCreated = requisitos_presentadosService.create(requisitos_presentados);
-            Requisitos_PresentadosDTO requisitos_presentadosDto = MapperUtils.DtoFromEntity(requisitos_presentadosCreated, Requisitos_PresentadosDTO.class);
-            return new ResponseEntity<>(requisitos_presentadosDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CREAR')")
+    public ResponseEntity<?> create(@Valid @RequestBody Requisitos_PresentadosDTO requisitos_presentadosDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                return new ResponseEntity(requisitos_presentadosService.create(requisitos_presentadosDTO), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{id}") 
+    @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de requisitos presentados:", response = Requisitos_PresentadosDTO.class, tags = "Requisitos_Presentados")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Requisitos_Presentados requisitos_presentadosModified) {
-        try {
-            Optional<Requisitos_Presentados> requisitos_presentadosUpdated = requisitos_presentadosService.update(requisitos_presentadosModified, id);
-            if (requisitos_presentadosUpdated.isPresent()) {
-                Requisitos_PresentadosDTO requisitos_presentadosDto = MapperUtils.DtoFromEntity(requisitos_presentadosUpdated.get(), Requisitos_PresentadosDTO.class);
-                return new ResponseEntity<>(requisitos_presentadosDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    @PreAuthorize("hasAuthority('REQUISITOS_PRESENTADOS_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Requisitos_PresentadosDTO requisitos_presentadosDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                Optional<Requisitos_PresentadosDTO> requisitos_presentadosUpdated = requisitos_presentadosService.update(requisitos_presentadosDTO, id);
+                if (requisitos_presentadosUpdated.isPresent()) {
+                    return new ResponseEntity(requisitos_presentadosUpdated, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity(HttpStatus.NOT_FOUND);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping("/{id}") 
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-            return null;
+          try {
+            requisitos_presentadosService.delete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    @DeleteMapping("/") 
+
+    @DeleteMapping("/")
     public ResponseEntity<?> deleteAll() {
-            return null;
-    } 
+        try {
+            requisitos_presentadosService.deleteAll();
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

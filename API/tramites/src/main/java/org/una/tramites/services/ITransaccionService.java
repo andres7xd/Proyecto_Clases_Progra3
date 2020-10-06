@@ -5,39 +5,37 @@
  */
 package org.una.tramites.services;
 
-
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Transaccion;
+import org.una.tramites.dto.TransaccionDTO;
 
 /**
  *
  * @author rache
- *//**
- *
- * @author rache
  */
 public interface ITransaccionService {
- 
 
-    public Optional<Transaccion> findById(Long id);
+    public Optional<TransaccionDTO> findById(Long id);
 
-    public Optional<List<Transaccion>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate);
+    public Optional<List<TransaccionDTO>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate);
 
-    public Optional<List<Transaccion>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate);
+    public Optional<List<TransaccionDTO>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate);
 
-    public Optional<List<Transaccion>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate);
+    public Optional<List<TransaccionDTO>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate);
 
-    public Optional<List<Transaccion>> findByFechaRegistroBetween(Date startDate, Date endDate);
+    public Optional<List<TransaccionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate);
 
-    public Transaccion create(Transaccion transaccion);
+    public TransaccionDTO create(TransaccionDTO transaccionDTO);
 
-    public Optional<Transaccion> update(Transaccion transaccionModified, Long id);
+    public Optional<TransaccionDTO> update(TransaccionDTO transaccionModified, Long id);
 
-    public Optional<List<Transaccion>> findAll();
-    
-    public Optional<List<Transaccion>> findByEstadoContaining(Boolean estado);
-     
+    public Optional<List<TransaccionDTO>> findAll();
+
+    public Optional<List<TransaccionDTO>> findByEstadoContaining(Boolean estado);
+
+    public void delete(Long id);
+
+    public void deleteAll();
+
 }

@@ -7,8 +7,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Archivos_Relacionados;
-import org.una.tramites.entities.Notas;
+import org.una.tramites.dto.Archivos_RelacionadosDTO;
 
 /**
  *
@@ -16,13 +15,13 @@ import org.una.tramites.entities.Notas;
  */
 public interface IArchivos_RelacionadosService {
     
-    public Optional<List<Archivos_Relacionados>> findAll();
+    public Optional<List<Archivos_RelacionadosDTO>> findAll();
 
-    public Optional<Archivos_Relacionados> findById(Long id);
+    public Optional<Archivos_RelacionadosDTO> findById(Long id);
 
-    public Archivos_Relacionados create(Archivos_Relacionados archivos_relacionados);
+    public Archivos_RelacionadosDTO create(Archivos_RelacionadosDTO archivos_relacionadosDTO);
 
-    public Optional<Archivos_Relacionados> update(Archivos_Relacionados archivos_relacionados, Long id);
+    public Optional<Archivos_RelacionadosDTO> update(Archivos_RelacionadosDTO archivos_relacionadosDTO, Long id);
 
     public void delete(Long id);
 

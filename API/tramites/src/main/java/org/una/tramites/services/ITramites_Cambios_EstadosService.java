@@ -7,7 +7,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Tramites_Cambios_Estados;
+import org.una.tramites.dto.Tramites_Cambios_EstadosDTO;
 
 /**
  *
@@ -15,15 +15,15 @@ import org.una.tramites.entities.Tramites_Cambios_Estados;
  */
 public interface ITramites_Cambios_EstadosService {
 
-    public Optional<Tramites_Cambios_Estados> findById(Long id);
+    public Optional<Tramites_Cambios_EstadosDTO> findById(Long id);
 
-    public Tramites_Cambios_Estados create(Tramites_Cambios_Estados tramitesCambiosEstados);
+    public Tramites_Cambios_EstadosDTO create(Tramites_Cambios_EstadosDTO tramites_Cambios_EstadosDTO);
 
-    public Optional<Tramites_Cambios_Estados> update(Tramites_Cambios_Estados tramitesCambiosEstados, Long id);
+    public Optional<Tramites_Cambios_EstadosDTO> update(Tramites_Cambios_EstadosDTO tramites_Cambios_EstadosDTO, Long id);
 
     public void delete(Long id);
 
     public void deleteAll();
 
-    public Optional<List<Tramites_Cambios_Estados>>findAll();
+    public Optional<List<Tramites_Cambios_EstadosDTO>>findAll();
 }

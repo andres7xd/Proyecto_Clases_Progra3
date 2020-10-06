@@ -12,8 +12,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.TransaccionDTO;
 import org.una.tramites.entities.Transaccion;
 import org.una.tramites.repositories.ITransaccionRepository;
+import org.una.tramites.utils.Convertir;
+import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -27,25 +30,30 @@ public class TransaccionServiceImplementation implements ITransaccionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Transaccion> findById(Long id) {
-        return transaccionRepository.findById(id);
+    public Optional<TransaccionDTO> findById(Long id) {
+        return (Optional<TransaccionDTO>) Convertir.oneToDto(transaccionRepository.findById(id), TransaccionDTO.class);
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<Transaccion>> findByEstadoContaining(Boolean estado) {
-        return Optional.ofNullable(transaccionRepository.findByEstadoContaining(estado));
-    } 
-    @Override
-    @Transactional
-    public Transaccion create(Transaccion transaccion) {
-        return transaccionRepository.save(transaccion);
+    public Optional<List<TransaccionDTO>> findByEstadoContaining(Boolean estado) {
+        return (Optional<List<TransaccionDTO>>) Convertir.findList(Optional.ofNullable(transaccionRepository.findByEstadoContaining(estado)), TransaccionDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Transaccion> update(Transaccion transaccion, Long id) {
+    public TransaccionDTO create(TransaccionDTO transaccionDTO) {
+        Transaccion transaccion = MapperUtils.EntityFromDto(transaccionDTO, Transaccion.class);
+        transaccion = transaccionRepository.save(transaccion);
+        return MapperUtils.DtoFromEntity(transaccion, TransaccionDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public Optional<TransaccionDTO> update(TransaccionDTO transaccionDTO, Long id) {
         if (transaccionRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(transaccionRepository.save(transaccion));
+            Transaccion transaccion = MapperUtils.EntityFromDto(transaccionDTO, Transaccion.class);
+            transaccion = transaccionRepository.save(transaccion);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(transaccion, TransaccionDTO.class));
         } else {
             return null;
         }
@@ -54,32 +62,44 @@ public class TransaccionServiceImplementation implements ITransaccionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Transaccion>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate) {
-        return Optional.ofNullable(transaccionRepository.findByUsuarioIdAndFechaRegistroBetween(usuarioId, startDate, endDate));
+    public Optional<List<TransaccionDTO>> findByUsuarioIdAndFechaRegistroBetween(Long usuarioId, Date startDate, Date endDate) {
+        return (Optional<List<TransaccionDTO>>) Convertir.findList(Optional.ofNullable(transaccionRepository.findByUsuarioIdAndFechaRegistroBetween(usuarioId, startDate, endDate)), TransaccionDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Transaccion>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate) {
-        return Optional.ofNullable(transaccionRepository.findByPermisoIdAndFechaRegistroBetween(permisoId, startDate, endDate));
+    public Optional<List<TransaccionDTO>> findByPermisoIdAndFechaRegistroBetween(Long permisoId, Date startDate, Date endDate) {
+        return (Optional<List<TransaccionDTO>>) Convertir.findList(Optional.ofNullable(transaccionRepository.findByPermisoIdAndFechaRegistroBetween(permisoId, startDate, endDate)), TransaccionDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Transaccion>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate) {
-        return Optional.ofNullable(transaccionRepository.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate));
+    public Optional<List<TransaccionDTO>> findByObjetoAndFechaRegistroBetween(String objeto, Date startDate, Date endDate) {
+        return (Optional<List<TransaccionDTO>>) Convertir.findList(Optional.ofNullable(transaccionRepository.findByObjetoAndFechaRegistroBetween(objeto, startDate, endDate)), TransaccionDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Transaccion>> findByFechaRegistroBetween(Date startDate, Date endDate) {
-        return Optional.ofNullable(transaccionRepository.findByFechaRegistroBetween(startDate, endDate));
+    public Optional<List<TransaccionDTO>> findByFechaRegistroBetween(Date startDate, Date endDate) {
+        return (Optional<List<TransaccionDTO>>) Convertir.findList(Optional.ofNullable(transaccionRepository.findByFechaRegistroBetween(startDate, endDate)), TransaccionDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Transaccion>> findAll() {
-        return Optional.ofNullable(transaccionRepository.findAll());
+    public Optional<List<TransaccionDTO>> findAll() {
+        return (Optional<List<TransaccionDTO>>) Convertir.findList(Optional.ofNullable(transaccionRepository.findAll()), TransaccionDTO.class);
     }
 
-}
+    @Override
+    @Transactional
+    public void delete(Long id) {
+
+        transaccionRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll() {
+        transaccionRepository.deleteAll();
+    }
+    }

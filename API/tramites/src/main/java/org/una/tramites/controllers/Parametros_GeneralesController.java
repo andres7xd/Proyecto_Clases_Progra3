@@ -7,11 +7,13 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.Parametros_GeneralesDTO;
-import org.una.tramites.entities.Parametros_Generales;
 import org.una.tramites.services.IParametros_GeneralesService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -36,21 +36,18 @@ import org.una.tramites.utils.MapperUtils;
 @Api(tags = {"Parametros_Generales"})
 public class Parametros_GeneralesController {
 
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
+    
     @Autowired
-    private IParametros_GeneralesService parametrosgeneralesService;
+    private IParametros_GeneralesService parametros_generalesService;
     
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Parametros Generales", response = Parametros_GeneralesDTO.class, responseContainer = "List", tags = "Parametros_Generales")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Parametros_Generales>> result = parametrosgeneralesService.findAll();
-            if (result.isPresent()) {
-                List<Parametros_GeneralesDTO> parametros_generalessDTO = MapperUtils.DtoListFromEntityList(result.get(), Parametros_GeneralesDTO.class);
-                return new ResponseEntity<>(parametros_generalessDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(parametros_generalesService.findAll(), HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -58,64 +55,68 @@ public class Parametros_GeneralesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
-        try {
-
-            Optional<Parametros_Generales> parametros_generalesFound = parametrosgeneralesService.findById(id);
-            if (parametros_generalesFound.isPresent()) {
-                Parametros_GeneralesDTO parametros_generalesDto = MapperUtils.DtoFromEntity(parametros_generalesFound.get(), Parametros_GeneralesDTO.class);
-                return new ResponseEntity<>(parametros_generalesDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+       try {
+            return new ResponseEntity(parametros_generalesService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
     
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de Parametros_Generales:", response = Parametros_GeneralesDTO.class, tags = "Parametros_Generales")
-    public ResponseEntity<?> create(@RequestBody Parametros_Generales parametros_generales) {
-        try {
-            Parametros_Generales parametros_generalesCreated = parametrosgeneralesService.create(parametros_generales);
-            Parametros_GeneralesDTO parametros_generalesDto = MapperUtils.DtoFromEntity(parametros_generalesCreated, Parametros_GeneralesDTO.class);
-            return new ResponseEntity<>(parametros_generalesDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    @PreAuthorize("hasAuthority('PARAMETROS_GENERALES_CREAR')")
+    public ResponseEntity<?> create(@Valid @RequestBody Parametros_GeneralesDTO parametros_generalesDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                return new ResponseEntity(parametros_generalesService.create(parametros_generalesDTO), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de Parametros_Generales:", response = Parametros_GeneralesDTO.class, tags = "Parametros_Generales")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Parametros_Generales parametros_generalesModified) {
-        try {
-            Optional<Parametros_Generales> parametros_generalesUpdated = parametrosgeneralesService.update(parametros_generalesModified, id);
-            if (parametros_generalesUpdated.isPresent()) {
-                Parametros_GeneralesDTO parametros_generalesDto = MapperUtils.DtoFromEntity(parametros_generalesUpdated.get(), Parametros_GeneralesDTO.class);
-                return new ResponseEntity<>(parametros_generalesDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    @PreAuthorize("hasAuthority('PARAMETROS_GENERALES_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Parametros_GeneralesDTO parametros_generalesDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                Optional<Parametros_GeneralesDTO> parametros_generalesUpdated = parametros_generalesService.update(parametros_generalesDTO, id);
+                if (parametros_generalesUpdated.isPresent()) {
+                    return new ResponseEntity(parametros_generalesUpdated, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity(HttpStatus.NOT_FOUND);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
     
-    
         @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        return null;
-
+         try {
+            parametros_generalesService.delete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/")
     public ResponseEntity<?> deleteAll() {
-        return null;
-
+       try {
+            parametros_generalesService.deleteAll();
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

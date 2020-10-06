@@ -21,7 +21,6 @@ import org.una.tramites.dto.AuthenticationRequest;
 import org.una.tramites.dto.AuthenticationResponse;
 import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.services.IAuthenticationService;
-import org.una.tramites.services.IUsuarioService;
 
 /**
  *

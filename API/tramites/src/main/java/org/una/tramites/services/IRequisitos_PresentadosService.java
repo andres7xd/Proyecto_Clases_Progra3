@@ -7,7 +7,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Requisitos_Presentados;
+import org.una.tramites.dto.Requisitos_PresentadosDTO;
 
 /**
  *
@@ -15,13 +15,13 @@ import org.una.tramites.entities.Requisitos_Presentados;
  */
 public interface IRequisitos_PresentadosService {
     
-    public Optional<List<Requisitos_Presentados>> findAll();
+    public Optional<List<Requisitos_PresentadosDTO>> findAll();
 
-    public Optional<Requisitos_Presentados> findById(Long id);
+    public Optional<Requisitos_PresentadosDTO> findById(Long id);
 
-    public Requisitos_Presentados create(Requisitos_Presentados requisitos_presentados);
+    public Requisitos_PresentadosDTO create(Requisitos_PresentadosDTO requisitos_presentadosDTO);
 
-    public Optional<Requisitos_Presentados> update(Requisitos_Presentados requisitos_presentados, Long id);
+    public Optional<Requisitos_PresentadosDTO> update(Requisitos_PresentadosDTO requisitos_presentadosDTO, Long id);
 
     public void delete(Long id);
 

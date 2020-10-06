@@ -7,11 +7,13 @@ package org.una.tramites.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +22,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.TransaccionDTO;
-import org.una.tramites.entities.Transaccion;
 import org.una.tramites.services.ITransaccionService;
-import org.una.tramites.utils.MapperUtils;
 
 /**
  *
@@ -36,20 +35,19 @@ import org.una.tramites.utils.MapperUtils;
 @Api(tags = {"Transacciones"})
 public class TransaccionController {
 
+    final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
+
     @Autowired
     private ITransaccionService transaccionService;
-    @GetMapping() 
-    @ApiOperation(value = "Obtiene una lista de todos los departamentos", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
+
+    @GetMapping()
+    @ApiOperation(value = "Obtiene una lista de todas las transacciones", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
+    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
-            Optional<List<Transaccion>> result = transaccionService.findAll();
-            if (result.isPresent()) {
-                List<TransaccionDTO> transaccionDTO = MapperUtils.DtoListFromEntityList(result.get(), TransaccionDTO.class);
-                return new ResponseEntity<>(transaccionDTO, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity<>(transaccionService.findAll(), HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -58,60 +56,67 @@ public class TransaccionController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
-
-            Optional<Transaccion> transaccionFound = transaccionService.findById(id);
-            if (transaccionFound.isPresent()) {
-                TransaccionDTO transaccionDto = MapperUtils.DtoFromEntity(transaccionFound.get(), TransaccionDTO.class);
-                return new ResponseEntity<>(transaccionDto, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            return new ResponseEntity(transaccionService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
-    @ResponseBody
     @ApiOperation(value = "Creacion de departamento:", response = TransaccionDTO.class, tags = "Transacciones")
-    public ResponseEntity<?> create(@RequestBody Transaccion transaccion) {
-        try {
-            Transaccion transaccionCreated = transaccionService.create(transaccion);
-            TransaccionDTO transaccionDTO = MapperUtils.DtoFromEntity(transaccionCreated, TransaccionDTO.class);
-            return new ResponseEntity<>(transaccionDTO, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    @PreAuthorize("hasAuthority('TRANSACCION_CREAR')")
+    public ResponseEntity<?> create(@Valid @RequestBody TransaccionDTO transaccionDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                return new ResponseEntity(transaccionService.create(transaccionDTO), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
     @ResponseBody
-    @ApiOperation(value = "Actualizacion de departamento:", response = TransaccionDTO.class, tags = "Transacciones")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody Transaccion transaccionModified) {
-        try {
-            Optional<Transaccion> transaccionUpdated = transaccionService.update(transaccionModified, id);
-            if (transaccionUpdated.isPresent()) {
-                TransaccionDTO transaccionDto = MapperUtils.DtoFromEntity(transaccionUpdated.get(), TransaccionDTO.class);
-                return new ResponseEntity<>(transaccionDto, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    @ApiOperation(value = "Actualizacion de una transacción:", response = TransaccionDTO.class, tags = "Transacciones")
+    @PreAuthorize("hasAuthority('TRANSACCION_MODIFICAR')")
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TransaccionDTO transaccionDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                Optional<TransaccionDTO> transaccionUpdated = transaccionService.update(transaccionDTO, id);
+                if (transaccionUpdated.isPresent()) {
+                    return new ResponseEntity(transaccionUpdated, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity(HttpStatus.NOT_FOUND);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
 
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-        return null;
+        try {
+            transaccionService.delete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/")
     public ResponseEntity<?> deleteAll() {
-        return null;
+        try {
+            transaccionService.deleteAll();
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

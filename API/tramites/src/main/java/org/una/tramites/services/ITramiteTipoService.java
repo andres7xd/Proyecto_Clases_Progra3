@@ -7,26 +7,27 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.TramiteTipo;
+import org.una.tramites.dto.TramiteTipoDTO;
 
 /**
  *
  * @author andre
  */
 public interface ITramiteTipoService {
-     public Optional<List<TramiteTipo>> findAll();
-
-    public Optional<TramiteTipo> findById(Long id);
     
-    public TramiteTipo create(TramiteTipo tramite);
+     public Optional<List<TramiteTipoDTO>> findAll();
 
-    public Optional<TramiteTipo> update(TramiteTipo tramite, Long id);
+    public Optional<TramiteTipoDTO> findById(Long id);
+    
+    public TramiteTipoDTO create(TramiteTipoDTO tramiteTipoDTO);
+
+    public Optional<TramiteTipoDTO> update(TramiteTipoDTO tramiteTipoDTO, Long id);
 
     public void delete(Long id);
 
     public void deleteAll();
     
-    public Optional<List<TramiteTipo>> findByDepartamentoId(Long id);
+    public Optional<List<TramiteTipoDTO>> findByDepartamentoId(Long id);
     
-    public Optional<List<TramiteTipo>> findByDescripcion(String descripcion);
+    public Optional<List<TramiteTipoDTO>> findByDescripcion(String descripcion);
 }

@@ -7,7 +7,7 @@ package org.una.tramites.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.una.tramites.entities.Departamento;
+import org.una.tramites.dto.DepartamentoDTO;
 
 /**
  *
@@ -15,13 +15,13 @@ import org.una.tramites.entities.Departamento;
  */
 public interface IDepartamentoService {
 
-    public Optional<List<Departamento>> findAll();
+    public Optional<List<DepartamentoDTO>> findAll();
 
-    public Optional<Departamento> findById(Long id);
+    public Optional<DepartamentoDTO> findById(Long id);
 
-    public Departamento create(Departamento departamento);
+    public DepartamentoDTO create(DepartamentoDTO departamentoDTO);
 
-    public Optional<Departamento> update(Departamento departamento, Long id);
+    public Optional<DepartamentoDTO> update(DepartamentoDTO departamentoDTO, Long id);
 
     public void delete(Long id);
 

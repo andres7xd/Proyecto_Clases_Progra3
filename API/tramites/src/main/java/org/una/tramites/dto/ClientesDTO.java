@@ -28,6 +28,7 @@ public class ClientesDTO {
     private String direccion;
     private Date fechaRegistro; 
     private Date fechaModificacion;
+    private String passwordEncriptado;
     private boolean estado;
     
 }

@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.tramites.dto.UsuarioDTO;
 import org.una.tramites.entities.Usuario;
 import org.una.tramites.repositories.IUsuarioRepository;
+import org.una.tramites.utils.Convertir;
+import org.una.tramites.utils.MapperUtils;
 
 @Service
 public class UsuarioServiceImplementation implements IUsuarioService {
@@ -25,44 +28,47 @@ public class UsuarioServiceImplementation implements IUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findAll() {
-        return Optional.ofNullable(usuarioRepository.findAll());
+    public Optional<List<UsuarioDTO>> findAll() {
+        return (Optional<List<UsuarioDTO>>) Convertir.findList(Optional.ofNullable(usuarioRepository.findAll()), UsuarioDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Usuario> findById(Long id) {
-        return usuarioRepository.findById(id);
+    public Optional<UsuarioDTO> findById(Long id) {
+        return (Optional<UsuarioDTO>) Convertir.oneToDto(usuarioRepository.findById(id), UsuarioDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findByCedulaAproximate(String cedula) {
-        return Optional.ofNullable(usuarioRepository.findByCedulaContaining(cedula));
+    public Optional<List<UsuarioDTO>> findByCedulaAproximate(String cedula) {
+        return (Optional<List<UsuarioDTO>>) Convertir.findList(usuarioRepository.findByCedulaContaining(cedula), UsuarioDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto) {
-        return Optional.ofNullable(usuarioRepository.findByNombreCompletoContainingIgnoreCase(nombreCompleto));
+    public Optional<List<UsuarioDTO>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto) {
+        return (Optional<List<UsuarioDTO>>) Convertir.findList(usuarioRepository.findByNombreCompletoContainingIgnoreCase(nombreCompleto), UsuarioDTO.class);
     }
 
     @Override
     @Transactional
-    public Usuario create(Usuario usuario) {
-        encriptarPassword(usuario);
-        return usuarioRepository.save(usuario);
+    public UsuarioDTO create(UsuarioDTO usuarioDTO) {
+        encriptarPassword(usuarioDTO);
+        Usuario user = MapperUtils.EntityFromDto(usuarioDTO, Usuario.class);
+        user = usuarioRepository.save(user);
+        return MapperUtils.DtoFromEntity(user, UsuarioDTO.class);
     }
 
     @Override
     @Transactional
-    public Optional<Usuario> update(Usuario usuario, Long id) {
+    public Optional<UsuarioDTO> update(UsuarioDTO usuarioDTO, Long id) {
         if (usuarioRepository.findById(id).isPresent()) {
-            return Optional.ofNullable(usuarioRepository.save(usuario));
+            Usuario user = MapperUtils.EntityFromDto(usuarioDTO, Usuario.class);
+            user = usuarioRepository.save(user);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(user, UsuarioDTO.class));
         } else {
             return null;
         }
-
     }
 
     @Override
@@ -78,39 +84,46 @@ public class UsuarioServiceImplementation implements IUsuarioService {
         usuarioRepository.deleteAll();
     }
 
-    @Override
-    @Transactional()
-    public Optional<Usuario> login(Usuario usuario) {
-        return Optional.ofNullable(usuarioRepository.findByCedulaAndPasswordEncriptado(usuario.getCedula(), usuario.getPasswordEncriptado()));
-    }
-
-    @Override
-    @Transactional()
-    public Usuario findJefeByDepartamento(Long id) {
-        return usuarioRepository.findJefeByDepartamento(id);
-    }
-
-    @Transactional()
-    public Usuario findByNombreCompleto(String nombreCompleto) {
-        return usuarioRepository.findByNombreCompleto(nombreCompleto);
-    }
-
+//    @Override
+//    @Transactional()
+//    public Optional<UsuarioDTO> login(UsuarioDTO usuarioDTO) {
+//        return Optional.ofNullable(usuarioRepository.findByCedulaAndPasswordEncriptado(usuarioDTO.getCedula(), usuarioDTO.getPasswordEncriptado()));
+//    }
+    
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<Usuario>> findByDepartamentoId(Long id) {
-        return Optional.ofNullable(usuarioRepository.findByDepartamentoId(id));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Usuario> findByCedula(String cedula) {
-        return Optional.ofNullable(usuarioRepository.findByCedula(cedula));
-    }
-
-    private void encriptarPassword(Usuario usuario) {
-        String password = usuario.getPasswordEncriptado();
-        if (!password.isBlank()) {
-            usuario.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
+    public Optional<UsuarioDTO> findJefeByDepartamento(Long id) {
+        Optional<Usuario> result = usuarioRepository.findJefeByDepartamento(id);
+        if (result != null) {
+            UsuarioDTO usuarioDTO = MapperUtils.DtoFromEntity(result.get(), UsuarioDTO.class);
+            return Optional.ofNullable(usuarioDTO);
+        } else {
+            return null;
         }
     }
+
+//    @Transactional()
+//    public UsuarioDTO findByNombreCompleto(String nombreCompleto) {
+//        return usuarioRepository.findByNombreCompleto(nombreCompleto);
+//    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id) {
+        return (Optional<List<UsuarioDTO>>) Convertir.findList(usuarioRepository.findByDepartamentoId(id), UsuarioDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<UsuarioDTO> findByCedula(String cedula) {
+        return (Optional<UsuarioDTO>) Convertir.oneToDto(Optional.ofNullable(usuarioRepository.findByCedula(cedula)), UsuarioDTO.class);
+    }
+
+    private void encriptarPassword(UsuarioDTO usuarioDTO) {
+        String password = usuarioDTO.getPasswordEncriptado();
+        if (!password.isBlank()) {
+            usuarioDTO.setPasswordEncriptado(bCryptPasswordEncoder.encode(password));
+        }
+    }
+
 }
