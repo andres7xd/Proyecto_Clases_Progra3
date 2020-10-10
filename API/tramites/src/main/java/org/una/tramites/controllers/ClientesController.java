@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.ClientesDTO;
 import org.una.tramites.services.IClientesService;
+import org.una.tramites.services.ITramites_EstadosService;
 
 /**
  *
@@ -43,7 +44,7 @@ public class ClientesController {
     
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Clientes", response = ClientesDTO.class, responseContainer = "List", tags = "Clientes")
-    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR_TODO')")
+//    @PreAuthorize("hasAuthority('CLIENTE_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
       try {
@@ -67,7 +68,7 @@ public class ClientesController {
     @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de Clientes:", response = ClientesDTO.class, tags = "Clientes")
-    @PreAuthorize("hasAuthority('CLIENTE_CREAR')")
+//    @PreAuthorize("hasAuthority('CLIENTE_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody ClientesDTO clientesDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -79,11 +80,21 @@ public class ClientesController {
             return new ResponseEntity(MENSAJE_VERIFICAR_INFORMACION, HttpStatus.BAD_REQUEST);
         }
     }
+//    
+//    @GetMapping("/Informacion/{informacion}")
+//    public ResponseEntity<?> findByInformacion(@PathVariable(value = "informacion") String informacion) {
+//        try {
+//            return new ResponseEntity(IClienteService.findByInformacion(informacion), HttpStatus.OK);
+//
+//        } catch (Exception e) {
+//            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de Clientes:", response = ClientesDTO.class, tags = "Clientes")
-    @PreAuthorize("hasAuthority('CLIENTE_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('CLIENTE_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ClientesDTO clientesDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

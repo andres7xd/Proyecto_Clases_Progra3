@@ -69,7 +69,7 @@ public class PermisoOtorgadoController {
     @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de permisoOtorgado:", response = PermisoOtorgadoDTO.class, tags = "Permisos_Otorgados")
-    @PreAuthorize("hasAuthority('PERMISO_OTORGADO__CREAR')")
+//    @PreAuthorize("hasAuthority('PERMISO_OTORGADO__CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody PermisoOtorgadoDTO permisoOtorgadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -85,7 +85,7 @@ public class PermisoOtorgadoController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de permisoOtorgado:", response = PermisoOtorgadoDTO.class, tags = "Permisos_Otorgados")
-    @PreAuthorize("hasAuthority('PERMISO_OTORGADO_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('PERMISO_OTORGADO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody PermisoOtorgadoDTO permisoOtorgadoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

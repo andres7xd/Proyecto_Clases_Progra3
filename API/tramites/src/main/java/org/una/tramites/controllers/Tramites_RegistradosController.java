@@ -48,7 +48,7 @@ public class Tramites_RegistradosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todas los tramites registrados", response = Tramites_RegistradosDTO.class, responseContainer = "List", tags = "Tramites_Registrados")
-    @PreAuthorize("hasAuthority('TRAMITES_REGISTRADOS_CONSULTAR_TODO')")
+ //   @PreAuthorize("hasAuthority('TRAMITES_REGISTRADOS_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -70,7 +70,7 @@ public class Tramites_RegistradosController {
 
     @PostMapping("/")
     @ApiOperation(value = "Creacion de un tramite registrado:", response = Tramites_RegistradosDTO.class, tags = "Tramites_Registrados")
-    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
+ //   @PreAuthorize("hasAuthority('USUARIO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody Tramites_RegistradosDTO tramites_Registrados_DTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -86,7 +86,7 @@ public class Tramites_RegistradosController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de tramites registrados:", response = Tramites_RegistradosDTO.class, tags = "Tramites_Registrados")
-    @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
+ //   @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Tramites_RegistradosDTO tramites_Registrados_DTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

@@ -61,7 +61,7 @@ public class Notas implements Serializable {
 
     private String contenido;
 
-    @Column(name = "Fecha_Registro")
+    @Column(name = "fecha_registro")
 
     @Setter(AccessLevel.NONE)
 
@@ -69,7 +69,7 @@ public class Notas implements Serializable {
 
     private Date fecha_registro;
 
-    @Column(name = "Fecha_Modificacion")
+    @Column(name = "fecha_modificacion")
 
     @Setter(AccessLevel.NONE)
 
@@ -88,7 +88,6 @@ public class Notas implements Serializable {
         fecha_registro = new Date();
 
         fecha_modificacion = new Date();
-
     }
 
     @PreUpdate
@@ -96,7 +95,6 @@ public class Notas implements Serializable {
     public void preUpdate() {
 
         fecha_modificacion = new Date();
-
     }
 
 }

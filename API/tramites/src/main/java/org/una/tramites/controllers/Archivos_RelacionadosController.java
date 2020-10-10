@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,8 +45,8 @@ public class Archivos_RelacionadosController {
     private IArchivos_RelacionadosService archivos_relacionadosService;
 
     @GetMapping()
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     @ApiOperation(value = "Obtiene una lista de todos los archivos relacionados", response = Archivos_RelacionadosDTO.class, responseContainer = "List", tags = "Archivos_Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -56,6 +58,7 @@ public class Archivos_RelacionadosController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(archivos_relacionadosService.findById(id), HttpStatus.OK);
@@ -67,8 +70,8 @@ public class Archivos_RelacionadosController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     @ApiOperation(value = "Creacion de un archivo relacionado:", response = Archivos_RelacionadosDTO.class, tags = "Archivos_Relacionados")
-    @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody Archivos_RelacionadosDTO archivos_relacionadosDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -83,6 +86,7 @@ public class Archivos_RelacionadosController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     @ApiOperation(value = "Actualizacion de archivos relacionados:", response = Archivos_RelacionadosDTO.class, tags = "Archivos_Relacionados")
     @PreAuthorize("hasAuthority('ARCHIVO_RELACIONADO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Archivos_RelacionadosDTO archivos_relacionadosDTO, BindingResult bindingResult) {
@@ -103,6 +107,7 @@ public class Archivos_RelacionadosController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             archivos_relacionadosService.delete(id);
@@ -113,6 +118,7 @@ public class Archivos_RelacionadosController {
     }
 
     @DeleteMapping("/")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public ResponseEntity<?> deleteAll() {
         try {
             archivos_relacionadosService.deleteAll();

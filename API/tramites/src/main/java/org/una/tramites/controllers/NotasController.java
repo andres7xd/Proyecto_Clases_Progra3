@@ -67,7 +67,7 @@ public class NotasController {
     @PostMapping("/") 
     @ResponseBody
     @ApiOperation(value = "Creacion de una nota:", response = NotasDTO.class, tags = "Notas")
-   @PreAuthorize("hasAuthority('NOTA_CREAR')")
+//   @PreAuthorize("hasAuthority('NOTA_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody NotasDTO notasDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -83,7 +83,7 @@ public class NotasController {
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Actualizacion de notas:", response = NotasDTO.class, tags = "Notas")
-   @PreAuthorize("hasAuthority('NOTA_MODIFICAR')")
+//   @PreAuthorize("hasAuthority('NOTA_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody NotasDTO notasDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

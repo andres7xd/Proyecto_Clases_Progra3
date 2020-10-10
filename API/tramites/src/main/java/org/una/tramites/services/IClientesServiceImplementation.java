@@ -45,7 +45,6 @@ public class IClientesServiceImplementation implements IClientesService {
     @Override
     @Transactional
     public ClientesDTO create(ClientesDTO clientesDTO) {
-        encriptarPassword(clientesDTO);
         Clientes clientes = MapperUtils.EntityFromDto(clientesDTO, Clientes.class);
         clientes = clientesRepository.save(clientes);
         return MapperUtils.DtoFromEntity(clientes, ClientesDTO.class);

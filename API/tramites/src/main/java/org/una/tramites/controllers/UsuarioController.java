@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.UsuarioDTO;
@@ -37,7 +39,7 @@ import org.una.tramites.utils.MapperUtils;
 @Api(tags = {"Usuarios"})
 
 public class UsuarioController {
-
+    
     final String MENSAJE_VERIFICAR_INFORMACION = "Debe verifiar el formato y la información de su solicitud con el formato esperado";
 
     @Autowired
@@ -45,7 +47,7 @@ public class UsuarioController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
-    @PreAuthorize("hasAuthority('USUARIO_CONSULTAR_TODO')")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -57,6 +59,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+   @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(usuarioService.findById(id), HttpStatus.OK);
@@ -66,6 +69,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/cedula/{term}")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
             return new ResponseEntity(usuarioService.findByCedulaAproximate(term), HttpStatus.OK);
@@ -75,6 +79,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/nombre/{term}")
+     @CrossOrigin(origins = "", allowedHeaders = "")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<UsuarioDTO>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
@@ -90,6 +95,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/")
+    @CrossOrigin(origins = "", allowedHeaders = "")
     @ApiOperation(value = "Permite crear un Usuario", response = UsuarioDTO.class, tags = "Usuarios")
     @PreAuthorize("hasAuthority('USUARIO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult bindingResult) {
@@ -105,6 +111,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     @ApiOperation(value = "Modifica un usuario", response = UsuarioDTO.class, tags = "Usuarios")
     @PreAuthorize("hasAuthority('USUARIO_MODIFICAR')")
@@ -126,8 +133,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-          try {
+        try {
             usuarioService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
@@ -136,8 +144,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/")
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     public ResponseEntity<?> deleteAll() {
-          try {
+        try {
             usuarioService.deleteAll();
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {

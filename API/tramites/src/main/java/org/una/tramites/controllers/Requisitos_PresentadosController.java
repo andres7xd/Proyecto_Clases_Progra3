@@ -67,7 +67,7 @@ public class Requisitos_PresentadosController {
     @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de una requisito presentado:", response = Requisitos_PresentadosDTO.class, tags = "Requisitos_Presentados")
-    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CREAR')")
+//    @PreAuthorize("hasAuthority('REQUISITO_PRESENTADO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody Requisitos_PresentadosDTO requisitos_presentadosDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -83,7 +83,7 @@ public class Requisitos_PresentadosController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de requisitos presentados:", response = Requisitos_PresentadosDTO.class, tags = "Requisitos_Presentados")
-    @PreAuthorize("hasAuthority('REQUISITOS_PRESENTADOS_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('REQUISITOS_PRESENTADOS_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Requisitos_PresentadosDTO requisitos_presentadosDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

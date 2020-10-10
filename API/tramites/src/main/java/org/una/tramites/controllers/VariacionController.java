@@ -65,7 +65,7 @@ public class VariacionController {
     
     @PostMapping("/")
     @ApiOperation(value = "Permite crear una variación", response = VariacionDTO.class, tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_CREAR')")
+  //  @PreAuthorize("hasAuthority('VARIACION_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody VariacionDTO variacionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -81,7 +81,7 @@ public class VariacionController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica una variación", response = VariacionDTO.class, tags = "Variaciones")
-    @PreAuthorize("hasAuthority('VARIACION_MODIFICAR')")
+   // @PreAuthorize("hasAuthority('VARIACION_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody VariacionDTO variacionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

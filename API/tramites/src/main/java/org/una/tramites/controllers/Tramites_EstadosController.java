@@ -12,8 +12,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.Tramites_EstadosDTO;
@@ -43,8 +44,8 @@ public class Tramites_EstadosController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los tramites_estados", response = Tramites_EstadosDTO.class, responseContainer = "List", tags = "Tramites_Estados")
-    @PreAuthorize("hasAuthority('TRAMITE_ESTADO_CONSULTAR_TODO')")
     public @ResponseBody
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     ResponseEntity<?> findAll() {
         try {
             return new ResponseEntity<>(tramites_estadosService.findAll(), HttpStatus.OK);
@@ -55,6 +56,7 @@ public class Tramites_EstadosController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity(tramites_estadosService.findById(id), HttpStatus.OK);
@@ -65,7 +67,6 @@ public class Tramites_EstadosController {
 
     @PostMapping("/")
     @ApiOperation(value = "Creacion de un tramite_estado:", response = Tramites_EstadosDTO.class, tags = "Tramites_Estados")
-    @PreAuthorize("hasAuthority('USUARIO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody Tramites_EstadosDTO tramites_EstadosDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -80,8 +81,9 @@ public class Tramites_EstadosController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
     @ApiOperation(value = "Actualizacion de tramites_estado:", response = Tramites_EstadosDTO.class, tags = "Tramites_Estados")
-    @PreAuthorize("hasAuthority('TRAMITES_ESTADOS_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('TRAMITES_ESTADOS_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Tramites_EstadosDTO tramites_EstadosDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -100,6 +102,7 @@ public class Tramites_EstadosController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         try {
             tramites_estadosService.delete(id);
@@ -110,6 +113,7 @@ public class Tramites_EstadosController {
     }
 
     @DeleteMapping("/")
+    @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<?> deleteAll() {
         try {
             tramites_estadosService.deleteAll();

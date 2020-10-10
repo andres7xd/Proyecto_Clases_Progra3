@@ -43,7 +43,7 @@ public class DepartamentoController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los departamentos", response = DepartamentoDTO.class, responseContainer = "List", tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_TODO')")
+//    @PreAuthorize("hasAuthority('DEPARTAMENTO_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -67,7 +67,7 @@ public class DepartamentoController {
     @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de departamento:", response = DepartamentoDTO.class, tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_CREAR')")
+//    @PreAuthorize("hasAuthority('DEPARTAMENTO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody DepartamentoDTO departamentoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -83,7 +83,7 @@ public class DepartamentoController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de departamento:", response = DepartamentoDTO.class, tags = "Departamentos")
-    @PreAuthorize("hasAuthority('DEPARTAMENTO_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('DEPARTAMENTO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody DepartamentoDTO departamentoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package org.una.tramites.dto;
-
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;

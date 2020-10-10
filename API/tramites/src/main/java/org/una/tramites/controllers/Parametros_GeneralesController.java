@@ -66,7 +66,7 @@ public class Parametros_GeneralesController {
     @PostMapping("/")
     @ResponseBody
     @ApiOperation(value = "Creacion de Parametros_Generales:", response = Parametros_GeneralesDTO.class, tags = "Parametros_Generales")
-    @PreAuthorize("hasAuthority('PARAMETROS_GENERALES_CREAR')")
+//    @PreAuthorize("hasAuthority('PARAMETROS_GENERALES_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody Parametros_GeneralesDTO parametros_generalesDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -82,7 +82,7 @@ public class Parametros_GeneralesController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de Parametros_Generales:", response = Parametros_GeneralesDTO.class, tags = "Parametros_Generales")
-    @PreAuthorize("hasAuthority('PARAMETROS_GENERALES_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('PARAMETROS_GENERALES_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Parametros_GeneralesDTO parametros_generalesDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

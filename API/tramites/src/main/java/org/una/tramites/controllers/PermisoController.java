@@ -42,7 +42,7 @@ public class PermisoController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los permisos", response = PermisoDTO.class, responseContainer = "List", tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR_TODO')")
+//    @PreAuthorize("hasAuthority('PERMISO_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
       try {
@@ -75,7 +75,7 @@ public class PermisoController {
     @PostMapping("/") 
     @ResponseBody
     @ApiOperation(value = "Creacion de un permiso:", response = PermisoDTO.class, tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_CREAR')")
+//    @PreAuthorize("hasAuthority('PERMISO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody PermisoDTO permisoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -91,7 +91,7 @@ public class PermisoController {
     @PutMapping("/{id}") 
     @ResponseBody
     @ApiOperation(value = "Actualizacion de permiso:", response = PermisoDTO.class, tags = "Permisos")
-    @PreAuthorize("hasAuthority('PERMISO_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('PERMISO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody PermisoDTO permisoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

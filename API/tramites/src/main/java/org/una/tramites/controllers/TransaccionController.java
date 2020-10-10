@@ -42,7 +42,7 @@ public class TransaccionController {
 
     @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todas las transacciones", response = TransaccionDTO.class, responseContainer = "List", tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR_TODO')")
+ //   @PreAuthorize("hasAuthority('TRANSACCION_CONSULTAR_TODO')")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -64,7 +64,7 @@ public class TransaccionController {
 
     @PostMapping("/")
     @ApiOperation(value = "Creacion de departamento:", response = TransaccionDTO.class, tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_CREAR')")
+  //  @PreAuthorize("hasAuthority('TRANSACCION_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody TransaccionDTO transaccionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -80,7 +80,7 @@ public class TransaccionController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de una transacción:", response = TransaccionDTO.class, tags = "Transacciones")
-    @PreAuthorize("hasAuthority('TRANSACCION_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('TRANSACCION_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TransaccionDTO transaccionDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

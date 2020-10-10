@@ -26,4 +26,6 @@ public interface IClientesService {
     public void deleteAll();
 
     public Optional<List<ClientesDTO>> findAll();
+    
+//     public Optional<List<ClientesDTO>> findByInformacion(String informacion);
 }

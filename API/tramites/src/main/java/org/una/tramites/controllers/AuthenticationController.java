@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.una.tramites.dto.AuthenticationRequest;
@@ -37,6 +39,7 @@ public class AuthenticationController {
     
     @PostMapping("/login")
     @ResponseBody
+    @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
     @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Autenticación")
     public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest, BindingResult bindingResult) {
 
@@ -44,13 +47,9 @@ public class AuthenticationController {
             return new ResponseEntity("La información no esta bien formada o no coincide con el formato esperado", HttpStatus.BAD_REQUEST);
         }
         try {
-          //  AuthenticationResponse authenticationResponse = new AuthenticationResponse();
             AuthenticationResponse token = authenticationService.login(authenticationRequest);
             String Stoken = String.valueOf(token);
             if (!Stoken.isBlank()) {
-              //  token.setJwt(Stoken);
-                //TODO: Complete this   authenticationResponse.setUsuario(usuario);
-               // TODO: Complete this    authenticationResponse.setPermisos(permisosOtorgados);
                 return new ResponseEntity(token, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Credenciales invalidos", HttpStatus.UNAUTHORIZED);

@@ -63,7 +63,7 @@ public class Tramites_Cambios_EstadosController {
 
     @PostMapping("/")
     @ApiOperation(value = "Creacion de Tramites_Cambios_Estados:", response = Tramites_Cambios_EstadosDTO.class, tags = "Tramites_Cambios_Estados")
-    @PreAuthorize("hasAuthority('TRAMITES_CAMBIOS_ESTADOS_CREAR')")
+//    @PreAuthorize("hasAuthority('TRAMITES_CAMBIOS_ESTADOS_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody Tramites_Cambios_EstadosDTO tramites_Cambios_EstadosDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -79,7 +79,7 @@ public class Tramites_Cambios_EstadosController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Actualizacion de Tramites_Cambios_Estados:", response = Tramites_Cambios_EstadosDTO.class, tags = "Tramites_Cambios_Estados")
-    @PreAuthorize("hasAuthority('TRAMITES_CAMBIOS_ESTADOS_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('TRAMITES_CAMBIOS_ESTADOS_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody Tramites_Cambios_EstadosDTO tramites_Cambios_EstadosDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {

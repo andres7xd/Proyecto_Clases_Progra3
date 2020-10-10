@@ -66,7 +66,7 @@ public class TramiteTipoController {
 
     @PostMapping("/")
     @ApiOperation(value = "Permite crear un tipo de tramite", response = TramiteTipoDTO.class, tags = "Tramites_Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_TIPO_CREAR')")
+//    @PreAuthorize("hasAuthority('TRAMITE_TIPO_CREAR')")
     public ResponseEntity<?> create(@Valid @RequestBody TramiteTipoDTO tramiteTipoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -82,7 +82,7 @@ public class TramiteTipoController {
     @PutMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "Modifica un tipo de tramite", response = TramiteTipoDTO.class, tags = "Tramites_Tipos")
-    @PreAuthorize("hasAuthority('TRAMITE_TIPO_MODIFICAR')")
+//    @PreAuthorize("hasAuthority('TRAMITE_TIPO_MODIFICAR')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody TramiteTipoDTO tramiteTipoDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             try {
